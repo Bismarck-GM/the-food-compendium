@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import mealCategoriesReducer from './mealCategories';
+import mealCategoriesReducer from './filterCategories';
 // import booksFilter from './filter';
 
 const rootStore = combineReducers({
