@@ -1,8 +1,10 @@
-const CREATE_FILTER = 'CREATE_FILTER';
+import { ALLMEALCATEGORIES } from '../../api/apidata';
+
+const CREATE_CATEGORIES = 'CREATE_CATEGORIES';
 const CHANGE_FILTER = 'CHANGE_FILTER';
 
-const createFilter = (newFilter) => ({
-  type: CREATE_FILTER,
+const createCategories = (newFilter) => ({
+  type: CREATE_CATEGORIES,
   payload: newFilter,
 });
 
@@ -11,9 +13,15 @@ const changeFilter = (newFilter) => ({
   payload: newFilter,
 });
 
+const fetchCategories = () => async (dispatch) => {
+  const categories = await fetch(ALLMEALCATEGORIES).then((res) => res.json());
+  dispatch(createCategories(categories.categories));
+};
+
 export {
-  CREATE_FILTER,
+  CREATE_CATEGORIES,
   CHANGE_FILTER,
-  createFilter,
+  createCategories,
   changeFilter,
+  fetchCategories,
 };

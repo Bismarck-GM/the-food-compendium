@@ -1,13 +1,26 @@
-import { CREATE_FILTER, CHANGE_FILTER } from '../actions/index';
+import { CREATE_CATEGORIES, CHANGE_FILTER } from '../actions/index';
 
-const mealCategoriesReducer = (state = ['All'], action) => {
+const initialState = {
+  loading: true,
+  currentFilter: 'All',
+  allFilters: [],
+  error: null,
+};
+
+const mealCategoriesReducer = (state = initialState, action) => {
   switch (action.type) {
-    case CREATE_FILTER:
-      return action.payload;
-
+    case CREATE_CATEGORIES:
+      return {
+        loading: false,
+        currentFilter: 'All',
+        allCategories: action.payload,
+        error: null,
+      };
     case CHANGE_FILTER:
-      return action.payload;
-
+      return {
+        ...state,
+        currentFilter: action.payload,
+      };
     default:
       return state;
   }
