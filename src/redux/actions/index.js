@@ -36,21 +36,21 @@ const mealCategoryQueryError = (errorDescription) => ({
 const fetchCategories = () => async (dispatch, getState) => {
   const { allCategories } = getState();
   if (allCategories === undefined) {
-    const categories = await fetch(ALLCATEGORIES).then((res) => res.json());
+    const categories = await axios.get(ALLCATEGORIES).then((res) => res.data);
     dispatch(createCategories(categories.categories));
   }
 };
 
-const fetchMealByCategory = (category) => async (dispatch, getState) => {
+const fetchMealByCategory = (urlParamCategory) => async (dispatch, getState) => {
   const { mealByCategory: { byCategory: categories } } = getState();
-  if (!Object.keys(categories).includes(category)) {
+  if (!Object.keys(categories).includes(urlParamCategory)) {
     dispatch(mealCategoryLoading);
-    const apidata = await axios.get(mealByCategoryURL(category)).then((res) => res.data);
+    const apidata = await axios.get(mealByCategoryURL(urlParamCategory)).then((res) => res.data);
     if (apidata.meals === null) {
-      mealCategoryQueryError(category);
+      dispatch(mealCategoryQueryError(urlParamCategory));
+    } else {
+      dispatch(createMealCategory(normalizeDataByMeal(apidata, urlParamCategory)));
     }
-    console.log(apidata);
-    dispatch(createMealCategory(normalizeDataByMeal(apidata, category)));
   }
 };
 

@@ -11,12 +11,16 @@ import { fetchMealByCategory } from '../redux/actions';
 const Categories = (props) => {
   const { mealByCategory, fetchMealByCategory } = props;
   const { loading, error, byCategory } = mealByCategory;
-  const { match: { params: { category: currentCategory } } } = props;
+  const { match: { params: { category: currentCategoryURL } } } = props;
   console.log(loading, error, byCategory);
 
   useEffect(() => {
-    fetchMealByCategory(currentCategory);
+    fetchMealByCategory(currentCategoryURL);
   }, []);
+
+  if (error) {
+    return `Error: ${error} `;
+  }
 
   return (
     <Box paddingTop="64px">
@@ -29,7 +33,7 @@ const Categories = (props) => {
         minWidth="100%"
       >
         {
-          byCategory[currentCategory] ? byCategory[currentCategory].map((item) => (
+          byCategory[currentCategoryURL] ? byCategory[currentCategoryURL].map((item) => (
             <Box key={item.idMeal}>{item.strMeal}</Box>
           )) : ''
         }
