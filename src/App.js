@@ -1,12 +1,16 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
+import Categories from './pages/Categories';
+import Navbar from './components/Navbar';
 
 const App = () => (
   <>
     <Router>
+      <Navbar />
       <Switch>
         <Route path="/" exact component={Home} />
+        <Route path="/categories/:category" exact component={Categories} />
       </Switch>
     </Router>
   </>
