@@ -1,7 +1,12 @@
-import { ALLMEALCATEGORIES } from '../../api/apidata';
+import axios from 'axios';
+import { ALLCATEGORIES, mealByCategoryURL } from '../../api/apidata';
+import normalizeDataByMeal from './normalizers';
 
 const CREATE_CATEGORIES = 'CREATE_CATEGORIES';
 const CHANGE_FILTER = 'CHANGE_FILTER';
+const CREATE_MEAL_CATEGORY = 'CREATE_MEAL_CATEGORY';
+const MEAL_CATEGORY_LOADING = 'MEAL_CATEGORY_LOADING';
+const MEAL_CATEGORY_QUERY_ERROR = 'MEAL_CATEGORY_QUERY_ERROR';
 
 const createCategories = (newFilter) => ({
   type: CREATE_CATEGORIES,
@@ -13,15 +18,52 @@ const changeFilter = (newFilter) => ({
   payload: newFilter,
 });
 
-const fetchCategories = () => async (dispatch) => {
-  const categories = await fetch(ALLMEALCATEGORIES).then((res) => res.json());
-  dispatch(createCategories(categories.categories));
+const createMealCategory = (mealCategory) => ({
+  type: CREATE_MEAL_CATEGORY,
+  payload: mealCategory,
+});
+
+const mealCategoryLoading = (mealCategory) => ({
+  type: MEAL_CATEGORY_LOADING,
+  payload: mealCategory,
+});
+
+const mealCategoryQueryError = (errorDescription) => ({
+  type: MEAL_CATEGORY_QUERY_ERROR,
+  payload: errorDescription,
+});
+
+const fetchCategories = () => async (dispatch, getState) => {
+  const { allCategories } = getState();
+  if (allCategories === undefined) {
+    const categories = await fetch(ALLCATEGORIES).then((res) => res.json());
+    dispatch(createCategories(categories.categories));
+  }
+};
+
+const fetchMealByCategory = (category) => async (dispatch, getState) => {
+  const { mealByCategory: { byCategory: categories } } = getState();
+  if (!Object.keys(categories).includes(category)) {
+    dispatch(mealCategoryLoading);
+    const apidata = await axios.get(mealByCategoryURL(category)).then((res) => res.data);
+    if (apidata.meals === null) {
+      mealCategoryQueryError(category);
+    }
+    console.log(apidata);
+    dispatch(createMealCategory(normalizeDataByMeal(apidata, category)));
+  }
 };
 
 export {
   CREATE_CATEGORIES,
   CHANGE_FILTER,
+  CREATE_MEAL_CATEGORY,
+  MEAL_CATEGORY_LOADING,
+  MEAL_CATEGORY_QUERY_ERROR,
+  mealCategoryQueryError,
   createCategories,
   changeFilter,
   fetchCategories,
+  fetchMealByCategory,
+  mealCategoryLoading,
 };
