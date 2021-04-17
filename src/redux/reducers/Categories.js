@@ -3,7 +3,7 @@ import { CREATE_CATEGORIES, CHANGE_FILTER } from '../actions/index';
 const initialState = {
   loading: true,
   currentFilter: 'All',
-  allFilters: [],
+  allCategories: null,
   error: null,
 };
 
