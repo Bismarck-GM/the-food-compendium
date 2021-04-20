@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 import {
   Box,
   Skeleton,
+  Heading,
 } from '@chakra-ui/react';
-// import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchMealByCategory } from '../redux/actions';
+import MealSwiper from '../components/MealSwiper';
 
 const Categories = (props) => {
   const { mealByCategory, fetchMealByCategory } = props;
   const { loading, error, byCategory } = mealByCategory;
   const { match: { params: { category: currentCategoryURL } } } = props;
-  console.log(loading, error, byCategory);
 
   useEffect(() => {
     fetchMealByCategory(currentCategoryURL);
@@ -23,20 +23,52 @@ const Categories = (props) => {
   }
 
   return (
-    <Box paddingTop="64px">
+    <Box
+      bgGradient={{ lg: 'linear(0deg, rgba(213,213,213,1) 0%, rgba(246,246,246,1) 100%);' }}
+    >
       <Skeleton
         isLoaded={!loading}
-        height="calc(100vh - 64px)"
-        margin={{ base: '0', lg: '0 auto' }}
+        height={{ base: 'calc(100vh - 88px)', lg: 'calc(100vh - 144px)' }}
+        margin={{ base: '0' }}
+        px={{ base: 3, lg: 6 }}
+        py={{ base: 3, lg: 6 }}
         display={{ lg: 'flex' }}
-        flexDirection={{ lg: 'column' }}
-        minWidth="100%"
+        justifyContent={{ lg: 'center' }}
+        position={{ lg: 'relative' }}
       >
-        {
-          byCategory[currentCategoryURL] ? byCategory[currentCategoryURL].map((item) => (
-            <Box key={item.idMeal}>{item.strMeal}</Box>
-          )) : ''
-        }
+        <Box w={{ lg: '30%' }}>
+          {
+            byCategory[currentCategoryURL] ? <MealSwiper props={props} /> : ''
+          }
+        </Box>
+        <Box
+          display={{ base: 'none', lg: 'block' }}
+          position="absolute"
+          top="20px"
+          left="0"
+          bgGradient="linear(to-r, yellow.600, red.500)"
+          borderRightRadius="50px"
+          opacity="85%"
+          boxShadow="dark-lg"
+        >
+          <Heading size="lg" fontFamily="'Advent Pro', sans-serif;" color="rgb(242,242,242)" px="20px" _disabled>
+            {`Meal Category: ${currentCategoryURL}`}
+          </Heading>
+        </Box>
+        <Box
+          display={{ base: 'none', lg: 'block' }}
+          position="absolute"
+          top="80px"
+          left="0"
+          bgGradient="linear(to-r, yellow.600, red.500)"
+          borderRightRadius="50px"
+          opacity="85%"
+          boxShadow="dark-lg"
+        >
+          <Heading size="md" fontFamily="'Advent Pro', sans-serif;" color="rgb(242,242,242)" px="20px" _disabled>
+            {`Fav Filter: ${'Active'}`}
+          </Heading>
+        </Box>
       </Skeleton>
     </Box>
   );
