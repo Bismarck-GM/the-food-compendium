@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -6,13 +6,17 @@ import {
   Box,
   Skeleton,
   Image,
-  Text,
+  // Text,
   Heading,
 } from '@chakra-ui/react';
-import { fetchCategories } from '../redux/actions';
+import { fetchCategories, mealCategoryLoading } from '../redux/actions';
 
-function Home({ fetchCategories, categories }) {
+function Home({ fetchCategories, mealCategoryLoading, categories }) {
   const { allCategories, error, loading } = categories;
+
+  useEffect(() => {
+    mealCategoryLoading();
+  }, []);
 
   if (allCategories === null) {
     fetchCategories();
@@ -22,37 +26,59 @@ function Home({ fetchCategories, categories }) {
     return `Error: ${error} `;
   }
   return (
-    <Box paddingTop="64px">
+    <Box
+      overflowY="scroll"
+    >
       <Skeleton
         isLoaded={!loading}
-        height="calc(100vh - 64px)"
         margin={{ base: '0', lg: '0 auto' }}
-        display={{ lg: 'flex' }}
-        flexDirection={{ lg: 'column' }}
         minWidth="100%"
+        minHeight={loading ? { base: 'calc(100vh - 88px)', lg: 'calc(100vh - 144px)' } : { lg: 'calc(100vh - 144px)' }}
       >
-        { allCategories ? allCategories.map((cat) => (
-          <Box
-            key={cat.idCategory}
-            minWidth={['100%', '100%', '50%']}
-            backgroundColor="rgb(0,0,0,0.5)"
-            color="white"
-            position="relative"
-            alignSelf="center"
-          >
-            <Link
-              to={`categories/${cat.strCategory}`}
+        <Heading backgroundColor="rgb(170, 151, 164, 0.8)" size="lg" fontFamily="'Advent Pro', sans-serif;" textAlign="center">What would you like to eat today?</Heading>
+        <Box
+          display={{ base: 'block', md: 'grid' }}
+          gridTemplateColumns={{ md: '1fr 1fr', lg: '1fr 1fr 1fr' }}
+          gridGap={{ md: '5px 5px', lg: '10px 10px' }}
+          px={{ base: 0, md: 3, xl: 24 }}
+          py={{ base: 0, lg: 6 }}
+          bgGradient="linear(0deg, rgba(213,213,213,1) 0%, rgba(246,246,246,1) 100%);"
+          minHeight={{ lg: 'calc(100vh - 144px)' }}
+        >
+          { allCategories ? allCategories.map((cat) => (
+            <Box
+              key={cat.idCategory}
+              minWidth={['100%', '100%', '50%']}
+              backgroundColor="rgb(127,127,127)"
+              color="white"
+              position="relative"
+              alignSelf="center"
+              borderRadius={{ lg: '30px' }}
+              boxShadow="dark-lg"
+              transition="all .2s ease-in-out"
+              _hover={{ transform: 'scale(1.05)', zIndex: '10' }}
             >
-              <Image src={cat.strCategoryThumb} alt={cat.strCategory} w="100%" />
-            </Link>
-            <Box backgroundColor="rgb(167,199,231,0.8)" position="absolute" bottom="0" w="100%" p={[2, 4, 6, 8]}>
-              <Heading size="lg" fontFamily="'Advent Pro', sans-serif;">
-                {`${cat.strCategory}`}
-              </Heading>
-              <Text fontFamily="'Advent Pro', sans-serif;" color="black">Theres X amount of recepies</Text>
+              <Link
+                to={`categories/${cat.strCategory}`}
+              >
+                <Image src={cat.strCategoryThumb} alt={cat.strCategory} w="100%" borderRadius={{ lg: '30px' }} />
+              </Link>
+              <Box
+                backgroundColor="rgb(255,117,85, 0.7)"
+                position="absolute"
+                bottom="0"
+                w="100%"
+                p={[2, 4]}
+                borderBottomRadius={{ lg: '30px' }}
+              >
+                <Heading size="md" fontFamily="'Advent Pro', sans-serif;">
+                  {`${cat.strCategory}`}
+                </Heading>
+                {/* <Text fontFamily="'Advent Pro', sans-serif;" color="black"> of</Text> */}
+              </Box>
             </Box>
-          </Box>
-        )) : ''}
+          )) : ''}
+        </Box>
       </Skeleton>
     </Box>
   );
@@ -60,6 +86,7 @@ function Home({ fetchCategories, categories }) {
 
 const mapDispatch = {
   fetchCategories,
+  mealCategoryLoading,
 };
 
 const mapStateToProps = (state) => ({
@@ -69,6 +96,7 @@ const mapStateToProps = (state) => ({
 Home.propTypes = {
   categories: PropTypes.objectOf(PropTypes.any).isRequired,
   fetchCategories: PropTypes.func.isRequired,
+  mealCategoryLoading: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatch)(Home);
