@@ -7,6 +7,7 @@ const CHANGE_FILTER = 'CHANGE_FILTER';
 const CREATE_MEAL_CATEGORY = 'CREATE_MEAL_CATEGORY';
 const MEAL_CATEGORY_LOADING = 'MEAL_CATEGORY_LOADING';
 const MEAL_CATEGORY_QUERY_ERROR = 'MEAL_CATEGORY_QUERY_ERROR';
+const MEAL_CATEGORY_LOADING_FALSE = 'MEAL_CATEGORY_LOADING_FALSE';
 
 const createCategories = (newFilter) => ({
   type: CREATE_CATEGORIES,
@@ -25,6 +26,11 @@ const createMealCategory = (mealCategory) => ({
 
 const mealCategoryLoading = (mealCategory) => ({
   type: MEAL_CATEGORY_LOADING,
+  payload: mealCategory,
+});
+
+const mealCategoryLoadingFalse = (mealCategory) => ({
+  type: MEAL_CATEGORY_LOADING_FALSE,
   payload: mealCategory,
 });
 
@@ -50,8 +56,11 @@ const fetchMealByCategory = (urlParamCategory) => async (dispatch, getState) => 
       dispatch(mealCategoryQueryError(urlParamCategory));
     } else {
       dispatch(createMealCategory(normalizeDataByMeal(apidata, urlParamCategory)));
+      dispatch(mealCategoryLoadingFalse());
     }
+    dispatch(mealCategoryLoadingFalse());
   }
+  dispatch(mealCategoryLoadingFalse());
 };
 
 export {
@@ -59,11 +68,13 @@ export {
   CHANGE_FILTER,
   CREATE_MEAL_CATEGORY,
   MEAL_CATEGORY_LOADING,
+  MEAL_CATEGORY_LOADING_FALSE,
   MEAL_CATEGORY_QUERY_ERROR,
-  mealCategoryQueryError,
   createCategories,
   changeFilter,
   fetchCategories,
   fetchMealByCategory,
   mealCategoryLoading,
+  mealCategoryLoadingFalse,
+  mealCategoryQueryError,
 };
