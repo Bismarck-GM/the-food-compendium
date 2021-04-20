@@ -83,7 +83,7 @@ const MealSwiper = ({ props }) => {
               <Box alignSelf="flex-end" boxShadow="md" p="2" rounded="100%" bg="white" as={Link} transition="all .2s ease-in-out" to="/" _hover={{ transform: 'scale(1.2)' }}>
                 <FaHome fontSize="20px" color="rgb(46,178,201)" />
               </Box>
-              <Box boxShadow="dark-lg" p="3" rounded="100%" bg="white" cursor="pointer" transition="all .2s ease-in-out" _hover={{ transform: 'scale(1.2)' }}>
+              <Box as={Link} to={`/recipes/${meal.idMeal}`} boxShadow="dark-lg" p="3" rounded="100%" bg="white" cursor="pointer" transition="all .2s ease-in-out" _hover={{ transform: 'scale(1.2)' }}>
                 <FaHeart fontSize="30px" color="rgb(78,203,147)" />
               </Box>
             </HStack>
