@@ -12,6 +12,9 @@ const CREATE_RECIPE = 'CREATE_RECIPE';
 const RECIPE_LOADING_TRUE = 'RECIPE_LOADING_TRUE';
 const RECIPE_LOADING_FALSE = 'RECIPE_LOADING_FALSE';
 const RECIPE_QUERY_ERROR = 'RECIPE_QUERY_ERROR';
+const CARD_SHOW_RECIPE = 'CARD_SHOW_RECIPE';
+const CARD_SHOW_INGREDIENTS = 'CARD_SHOW_INGREDIENTS';
+const CARD_SHOW_TOOLS = 'CARD_SHOW_TOOLS';
 
 const createCategories = (newFilter) => ({
   type: CREATE_CATEGORIES,
@@ -63,6 +66,21 @@ const recipeQueryError = (errorDescription) => ({
   payload: errorDescription,
 });
 
+const showRecipeCard = (changeCard) => ({
+  type: CARD_SHOW_RECIPE,
+  payload: changeCard,
+});
+
+const showIngredientCard = (changeCard) => ({
+  type: CARD_SHOW_INGREDIENTS,
+  payload: changeCard,
+});
+
+const showToolsCard = (changeCard) => ({
+  type: CARD_SHOW_TOOLS,
+  payload: changeCard,
+});
+
 const fetchCategories = () => async (dispatch, getState) => {
   const { allCategories } = getState();
   if (allCategories === undefined) {
@@ -112,6 +130,9 @@ export {
   RECIPE_LOADING_TRUE,
   RECIPE_LOADING_FALSE,
   RECIPE_QUERY_ERROR,
+  CARD_SHOW_RECIPE,
+  CARD_SHOW_INGREDIENTS,
+  CARD_SHOW_TOOLS,
   createCategories,
   changeFilter,
   mealCategoryLoading,
@@ -124,4 +145,7 @@ export {
   fetchCategories,
   fetchMealByCategory,
   fetchRecipeById,
+  showRecipeCard,
+  showIngredientCard,
+  showToolsCard,
 };
