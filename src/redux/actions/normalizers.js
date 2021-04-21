@@ -24,7 +24,10 @@ export const normalizeDataRecipe = (apidata, recipeId) => {
     const ingredientId = `strIngredient${i}`;
     const measureId = `strMeasure${i}`;
     const ingredient = response[recipeId][ingredientId];
-    const measure = response[recipeId][measureId];
+    let measure = response[recipeId][measureId];
+    if (measure.length === 1 || measure.match(/^\d+$/g)) {
+      measure = `${measure} units`;
+    }
     if (ingredient === '' || measure === '') {
       break;
     }
