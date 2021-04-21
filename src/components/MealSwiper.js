@@ -1,12 +1,12 @@
 import React, { useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import PropTypes from 'prop-types';
 import SwiperCore, {
   Scrollbar,
   Navigation,
   Lazy,
   EffectFlip,
 } from 'swiper';
-import PropTypes from 'prop-types';
 import {
   HStack,
   Box,
