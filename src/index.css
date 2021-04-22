@@ -1,1 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Advent+Pro:wght@100;200;300;400;500;600;700&family=Butterfly+Kids&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Cedarville+Cursive&family=Advent+Pro:wght@100;200;300;400;500;600;700&family=Butterfly+Kids&display=swap');
+.my-masonry-grid {
+  display: -webkit-box; /* Not needed if autoprefixing */
+  display: -ms-flexbox; /* Not needed if autoprefixing */
+  display: flex;
+  padding-bottom: 20px;
+  margin-left: -20px; /* gutter size offset */
+  width: auto;
+}
+.my-masonry-grid_column {
+  padding-left: 20px; /* gutter size */
+  background-clip: padding-box;
+}
