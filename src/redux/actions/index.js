@@ -89,7 +89,7 @@ const changeRecipeIngredientState = (recipe) => ({
 
 const toggleRecipeStep = (recipe, step, current) => (dispatch, getState) => {
   const { recipes: { byId: { [recipe.idMeal]: meal } } } = getState();
-  meal.steppedInstructions[step.id - 1].isDone = !current;
+  meal.steppedInstructions[step.instructionId - 1].isDone = !current;
   dispatch(changeRecipeStepState(meal));
 };
 
