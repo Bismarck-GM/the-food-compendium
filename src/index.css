@@ -4,10 +4,10 @@
   display: -ms-flexbox; /* Not needed if autoprefixing */
   display: flex;
   padding-bottom: 20px;
-  margin-left: -20px; /* gutter size offset */
+  margin-left: -15px; /* gutter size offset */
   width: auto;
 }
 .my-masonry-grid_column {
-  padding-left: 20px; /* gutter size */
+  padding-left: 15px; /* gutter size */
   background-clip: padding-box;
 }
