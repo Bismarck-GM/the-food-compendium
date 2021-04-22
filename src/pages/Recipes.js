@@ -78,9 +78,9 @@ const Recipes = (props) => {
       <Stack
         width="100vw"
         direction="row"
-        justifyContent="space-between"
         position="absolute"
         bottom={{ base: 8, lg: 12 }}
+        zIndex="11"
       >
         <Button
           flex="1 1 0"
