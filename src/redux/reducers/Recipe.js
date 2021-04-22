@@ -6,6 +6,8 @@ import {
   CARD_SHOW_RECIPE,
   CARD_SHOW_INGREDIENTS,
   CARD_SHOW_TOOLS,
+  // TOGGLE_RECIPE_STEP,
+  TOGGLE_RECIPE_INGREDIENT,
 } from '../actions/index';
 
 const initialState = {
@@ -16,7 +18,7 @@ const initialState = {
     ingredients: false,
     tools: false,
   },
-  allRecipes: {},
+  byId: {},
 };
 
 const recipeReducer = (state = initialState, action) => {
@@ -28,8 +30,8 @@ const recipeReducer = (state = initialState, action) => {
         mobileCards: {
           ...state.mobileCards,
         },
-        allRecipes: {
-          ...state.allRecipes,
+        byId: {
+          ...state.byId,
           ...action.payload,
         },
       };
@@ -40,8 +42,8 @@ const recipeReducer = (state = initialState, action) => {
         mobileCards: {
           ...state.mobileCards,
         },
-        allRecipes: {
-          ...state.allRecipes,
+        byId: {
+          ...state.byId,
         },
       };
     case RECIPE_LOADING_FALSE:
@@ -51,8 +53,8 @@ const recipeReducer = (state = initialState, action) => {
         mobileCards: {
           ...state.mobileCards,
         },
-        allRecipes: {
-          ...state.allRecipes,
+        byId: {
+          ...state.byId,
         },
       };
     case RECIPE_QUERY_ERROR:
@@ -62,8 +64,8 @@ const recipeReducer = (state = initialState, action) => {
         mobileCards: {
           ...state.mobileCards,
         },
-        allRecipes: {
-          ...state.allRecipes,
+        byId: {
+          ...state.byId,
         },
       };
     case CARD_SHOW_RECIPE:
@@ -75,8 +77,8 @@ const recipeReducer = (state = initialState, action) => {
           ingredients: false,
           tools: false,
         },
-        allRecipes: {
-          ...state.allRecipes,
+        byId: {
+          ...state.byId,
         },
       };
     case CARD_SHOW_INGREDIENTS:
@@ -88,8 +90,8 @@ const recipeReducer = (state = initialState, action) => {
           ingredients: true,
           tools: false,
         },
-        allRecipes: {
-          ...state.allRecipes,
+        byId: {
+          ...state.byId,
         },
       };
     case CARD_SHOW_TOOLS:
@@ -101,8 +103,23 @@ const recipeReducer = (state = initialState, action) => {
           ingredients: false,
           tools: true,
         },
-        allRecipes: {
-          ...state.allRecipes,
+        byId: {
+          ...state.byId,
+        },
+      };
+      // case TOGGLE_RECIPE_STEP:
+      //   return {
+      //     ...state,
+      //     byId: {
+      //       recipes,
+      //     },
+      //   };
+    case TOGGLE_RECIPE_INGREDIENT:
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          ...action.payload,
         },
       };
 
