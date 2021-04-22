@@ -54,7 +54,6 @@ const Recipes = (props) => {
         paddingBottom={{ base: 6, lg: 6 }}
         display={{ lg: 'flex' }}
         justifyContent={{ lg: 'center' }}
-        // position={{ lg: 'relative' }}
         position="relative"
         backgroundColor="rgb(0,0,0,0.4)"
         _after={{
