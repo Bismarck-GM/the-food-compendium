@@ -9,9 +9,10 @@ import {
   StackDivider,
   VStack,
   Fade,
-  // Grid,
+  Icon,
   GridItem,
 } from '@chakra-ui/react';
+import { TiTick } from 'react-icons/ti';
 import Separator from './Separator';
 import { toggleRecipeStep, toggleRecipeIngredient } from '../redux/actions';
 
@@ -21,6 +22,14 @@ const RecipeContainer = (args) => {
   const { recipes: { mobileCards } } = props;
   const currentRecipeId = currentMealId;
   const { recipes: { byId: { [currentRecipeId]: currentRecipe } } } = props;
+  const doneColors = [
+    'rgba(141,212,178,0.5)',
+    'rgba(156,225,168,0.5)',
+    'rgba(185,234,170,0.5)',
+    'rgba(216,244,175,0.5)',
+  ];
+
+  const randomDoneColor = () => (doneColors[Math.floor(Math.random() * doneColors.length)]);
 
   if (mobileCards.recipe) {
     return (
@@ -95,16 +104,33 @@ const RecipeContainer = (args) => {
               <GridItem
                 key={ing.id}
                 border={ing.isDone ? '1 px solid rgb(185,234,170)' : '1px solid white'}
+                borderRadius={ing.isDone ? 'xl' : ''}
+                transition="border-radius 0.5s 0s ease"
+                position="relative"
                 color="white"
                 marginBottom="10px"
                 whiteSpace="pre-wrap"
                 fontFamily="'Open Sans', sans-serif;"
                 onClick={() => toggleRecipeIngredient(currentRecipe, ing, ing.isDone)}
               >
+                {ing.isDone ? (
+                  <Icon
+                    as={TiTick}
+                    position="absolute"
+                    top="-14px"
+                    right="-9px"
+                    w={8}
+                    h={8}
+                    zIndex="10"
+                    transition="background 1.5s 0s ease"
+                  />
+                ) : ''}
                 <Box
-                  boxShadow="0 0 1rem 0 rgba(0, 0, 0, .5)"
-                  // backgroundColor="rgba(255, 255, 255, .1)"
-                  style={{ backdropFilter: 'blur(2px)' }}
+                  boxShadow={ing.isDone ? '0 0 1rem 0 rgba(0, 0, 0, .5)' : ''}
+                  backgroundColor={ing.isDone ? `${randomDoneColor()}` : ''}
+                  style={ing.isDone ? { backdropFilter: 'blur(2px)' } : {}}
+                  borderRadius={ing.isDone ? 'xl' : ''}
+                  transition="background 0.5s 0s ease, border-radius 0.5s 0s ease"
                 >
                   <Separator text={ing.measure} />
                   <Text textAlign="center" fontSize="xl">
