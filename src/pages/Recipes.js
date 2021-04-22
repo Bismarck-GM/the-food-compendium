@@ -28,7 +28,7 @@ const Recipes = (props) => {
   const {
     loading,
     error,
-    allRecipes,
+    byId,
     mobileCards,
   } = recipes;
 
@@ -37,7 +37,7 @@ const Recipes = (props) => {
   useEffect(() => {
     fetchRecipeById(currentMealId);
   }, []);
-  console.log(props, allRecipes, error);
+  console.log(props, byId, error);
   return (
     <Box
       bgGradient={{ lg: 'linear(0deg, rgba(213,213,213,1) 0%, rgba(246,246,246,1) 100%);' }}
@@ -47,11 +47,11 @@ const Recipes = (props) => {
       <Skeleton
         isLoaded={!loading}
         minWidth="100%"
-        minHeight={loading ? { base: 'calc(100vh - 88px)', lg: 'calc(100vh - 144px)' } : { lg: 'calc(100vh - 144px)' }}
+        minHeight={loading ? { base: 'calc(100vh - 88px)', lg: 'calc(100vh - 144px)' } : { base: 'calc(100vh - 96px)', lg: 'calc(100vh - 144px)' }}
         margin={{ base: '0' }}
         px={{ base: 3, lg: 6 }}
         paddingTop={{ base: 3, lg: 6 }}
-        paddingBottom={{ base: 12, lg: 6 }}
+        paddingBottom={{ base: 6, lg: 6 }}
         display={{ lg: 'flex' }}
         justifyContent={{ lg: 'center' }}
         // position={{ lg: 'relative' }}
@@ -72,7 +72,7 @@ const Recipes = (props) => {
         }}
       >
         {
-          allRecipes[currentMealId] ? <RecipeContainer props={props} /> : ''
+          byId[currentMealId] ? <RecipeContainer props={props} /> : ''
         }
       </Skeleton>
       <Stack
