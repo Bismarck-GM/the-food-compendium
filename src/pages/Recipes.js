@@ -37,10 +37,13 @@ const Recipes = (props) => {
   useEffect(() => {
     fetchRecipeById(currentMealId);
   }, []);
-  console.log(props, byId, error);
+
+  if (error) {
+    return `Something went wrong. Error: ${error}`;
+  }
+
   return (
     <Box
-      bgGradient={{ lg: 'linear(0deg, rgba(213,213,213,1) 0%, rgba(246,246,246,1) 100%);' }}
       overflowY="scroll"
     >
 
@@ -58,7 +61,7 @@ const Recipes = (props) => {
         backgroundColor="rgb(0,0,0,0.4)"
         _after={{
           content: '""',
-          bgGradient: 'linear(to-r, red.500, yellow.500)',
+          background: 'linear-gradient(0deg, rgba(1,1,1,1) 0%, rgba(117,117,117,1) 100%)',
           bgSize: 'cover',
           bgRepeat: 'no-repeat',
           opacity: '0.7',
@@ -75,6 +78,7 @@ const Recipes = (props) => {
         }
       </Skeleton>
       <Stack
+        display={{ base: 'flex', lg: 'none' }}
         width="100vw"
         direction="row"
         position="absolute"
@@ -104,6 +108,7 @@ const Recipes = (props) => {
           Ingredients
         </Button>
         <Button
+          display="none"
           flex="1 1 0"
           colorScheme="orange"
           isActive={!!mobileCards.tools}
