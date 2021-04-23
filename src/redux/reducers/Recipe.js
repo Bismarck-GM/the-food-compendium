@@ -6,7 +6,7 @@ import {
   CARD_SHOW_RECIPE,
   CARD_SHOW_INGREDIENTS,
   CARD_SHOW_TOOLS,
-  // TOGGLE_RECIPE_STEP,
+  TOGGLE_RECIPE_STEP,
   TOGGLE_RECIPE_INGREDIENT,
 } from '../actions/index';
 
@@ -107,13 +107,14 @@ const recipeReducer = (state = initialState, action) => {
           ...state.byId,
         },
       };
-      // case TOGGLE_RECIPE_STEP:
-      //   return {
-      //     ...state,
-      //     byId: {
-      //       recipes,
-      //     },
-      //   };
+    case TOGGLE_RECIPE_STEP:
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          ...action.payload,
+        },
+      };
     case TOGGLE_RECIPE_INGREDIENT:
       return {
         ...state,
