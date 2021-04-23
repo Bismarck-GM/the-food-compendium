@@ -6,16 +6,32 @@ import {
   Heading,
 } from '@chakra-ui/react';
 import { connect } from 'react-redux';
-import { fetchMealByCategory } from '../redux/actions';
+import {
+  fetchMealByCategory,
+  mealCategoryLoading,
+  mealCategoryLoadingFalse,
+} from '../redux/actions';
 import MealSwiper from '../components/MealSwiper';
 
 const Categories = (props) => {
-  const { mealByCategory, fetchMealByCategory } = props;
+  const {
+    mealByCategory,
+    fetchMealByCategory,
+    mealCategoryLoadingFalse,
+    mealCategoryLoading,
+  } = props;
   const { loading, error, byCategory } = mealByCategory;
   const { match: { params: { category: currentCategoryURL } } } = props;
 
   useEffect(() => {
-    fetchMealByCategory(currentCategoryURL);
+    if (!Object.keys(byCategory).includes(currentCategoryURL)) {
+      fetchMealByCategory(currentCategoryURL);
+    } else {
+      mealCategoryLoadingFalse();
+    }
+    return () => {
+      mealCategoryLoading();
+    };
   }, []);
 
   if (error) {
@@ -90,6 +106,8 @@ Categories.propTypes = {
   mealByCategory: PropTypes.objectOf(PropTypes.any).isRequired,
   match: PropTypes.objectOf(PropTypes.any).isRequired,
   fetchMealByCategory: PropTypes.func.isRequired,
+  mealCategoryLoadingFalse: PropTypes.func.isRequired,
+  mealCategoryLoading: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -98,6 +116,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatch = {
   fetchMealByCategory,
+  mealCategoryLoadingFalse,
+  mealCategoryLoading,
 };
 
 export default connect(mapStateToProps, mapDispatch)(Categories);
