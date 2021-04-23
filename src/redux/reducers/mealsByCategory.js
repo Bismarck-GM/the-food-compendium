@@ -15,7 +15,7 @@ const mealByCategoriesReducer = (state = initialState, action) => {
   switch (action.type) {
     case CREATE_MEAL_CATEGORY:
       return {
-        loading: state.loading,
+        loading: false,
         error: null,
         byCategory: {
           ...state.byCategory,
@@ -41,7 +41,7 @@ const mealByCategoriesReducer = (state = initialState, action) => {
     case MEAL_CATEGORY_QUERY_ERROR:
       return {
         loading: false,
-        error: `${action.payload} is not a valid URL`,
+        error: action.payload,
         byCategory: {
           ...state.byCategory,
         },
