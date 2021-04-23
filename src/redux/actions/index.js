@@ -3,10 +3,15 @@ import { ALLCATEGORIES, mealByCategoryURL, singleRecipeURL } from '../../api/api
 import { normalizeDataByMeal, normalizeDataRecipe } from './normalizers';
 
 const CREATE_CATEGORIES = 'CREATE_CATEGORIES';
+const CATEGORIES_LOADING = 'CATEGORIES_LOADING';
+const CATEGORIES_LOADING_FALSE = 'CATEGORIES_LOADING_FALSE';
+const CATEGORIES_QUERY_ERROR = 'CATEGORIES_QUERY_ERROR';
+
 const CREATE_MEAL_CATEGORY = 'CREATE_MEAL_CATEGORY';
 const MEAL_CATEGORY_LOADING = 'MEAL_CATEGORY_LOADING';
 const MEAL_CATEGORY_QUERY_ERROR = 'MEAL_CATEGORY_QUERY_ERROR';
 const MEAL_CATEGORY_LOADING_FALSE = 'MEAL_CATEGORY_LOADING_FALSE';
+
 const CREATE_RECIPE = 'CREATE_RECIPE';
 const RECIPE_LOADING_TRUE = 'RECIPE_LOADING_TRUE';
 const RECIPE_LOADING_FALSE = 'RECIPE_LOADING_FALSE';
@@ -22,24 +27,35 @@ const createCategories = (newFilter) => ({
   payload: newFilter,
 });
 
+const categoriesLoading = () => ({
+  type: CATEGORIES_LOADING,
+});
+
+const categoriesLoadingFalse = () => ({
+  type: CATEGORIES_LOADING_FALSE,
+});
+
+const categoriesQueryError = (err) => ({
+  type: CATEGORIES_QUERY_ERROR,
+  payload: err,
+});
+
 const createMealCategory = (mealCategory) => ({
   type: CREATE_MEAL_CATEGORY,
   payload: mealCategory,
 });
 
-const mealCategoryLoading = (mealCategory) => ({
+const mealCategoryLoading = () => ({
   type: MEAL_CATEGORY_LOADING,
-  payload: mealCategory,
 });
 
-const mealCategoryLoadingFalse = (mealCategory) => ({
+const mealCategoryLoadingFalse = () => ({
   type: MEAL_CATEGORY_LOADING_FALSE,
-  payload: mealCategory,
 });
 
-const mealCategoryQueryError = (errorDescription) => ({
+const mealCategoryQueryError = (err) => ({
   type: MEAL_CATEGORY_QUERY_ERROR,
-  payload: errorDescription,
+  payload: err,
 });
 
 const createRecipe = (recipe) => ({
@@ -47,19 +63,17 @@ const createRecipe = (recipe) => ({
   payload: recipe,
 });
 
-const recipeLoadingTrue = (recipe) => ({
+const recipeLoadingTrue = () => ({
   type: RECIPE_LOADING_TRUE,
-  payload: recipe,
 });
 
-const recipeLoadingFalse = (recipe) => ({
+const recipeLoadingFalse = () => ({
   type: RECIPE_LOADING_FALSE,
-  payload: recipe,
 });
 
-const recipeQueryError = (errorDescription) => ({
+const recipeQueryError = (err) => ({
   type: RECIPE_QUERY_ERROR,
-  payload: errorDescription,
+  payload: err,
 });
 
 const showRecipeCard = (changeCard) => ({
@@ -87,56 +101,56 @@ const changeRecipeIngredientState = (recipe) => ({
   payload: recipe,
 });
 
-const toggleRecipeStep = (recipe, step, current) => (dispatch, getState) => {
-  const { recipes: { byId: { [recipe.idMeal]: meal } } } = getState();
+const toggleRecipeStep = (recipeId, step, current) => (dispatch, getState) => {
+  const { recipes: { byId: { [recipeId]: meal } } } = getState();
   meal.steppedInstructions[step.instructionId - 1].isDone = !current;
-  dispatch(changeRecipeStepState(meal));
+  dispatch(changeRecipeStepState({ [recipeId]: meal }));
 };
 
-const toggleRecipeIngredient = (recipe, ing, current) => (dispatch, getState) => {
-  const { recipes: { byId: { [recipe.idMeal]: meal } } } = getState();
+const toggleRecipeIngredient = (recipeId, ing, current) => (dispatch, getState) => {
+  const { recipes: { byId: { [recipeId]: meal } } } = getState();
   meal.ingredients[ing.id - 1].isDone = !current;
-  dispatch(changeRecipeIngredientState(meal));
+  dispatch(changeRecipeIngredientState({ [recipeId]: meal }));
 };
 
-const fetchCategories = () => async (dispatch, getState) => {
-  const { allCategories } = getState();
-  if (allCategories === undefined) {
+const fetchCategories = () => async (dispatch) => {
+  try {
     const categories = await axios.get(ALLCATEGORIES).then((res) => res.data);
     dispatch(createCategories(categories.categories));
+  } catch (err) {
+    dispatch(categoriesQueryError(err));
   }
 };
 
-const fetchMealByCategory = (urlParamCategory) => async (dispatch, getState) => {
-  const { mealByCategory: { byCategory: categories } } = getState();
-  if (!Object.keys(categories).includes(urlParamCategory)) {
-    dispatch(mealCategoryLoading);
+const fetchMealByCategory = (urlParamCategory) => async (dispatch) => {
+  try {
     const apidata = await axios.get(mealByCategoryURL(urlParamCategory)).then((res) => res.data);
     if (apidata.meals === null) {
-      dispatch(mealCategoryQueryError(urlParamCategory));
-    } else {
-      dispatch(createMealCategory(normalizeDataByMeal(apidata, urlParamCategory)));
+      throw new Error(`${urlParamCategory} is an invalid Category URL`);
     }
+    dispatch(createMealCategory(normalizeDataByMeal(apidata, urlParamCategory)));
+  } catch (err) {
+    dispatch(mealCategoryQueryError(err));
   }
-  dispatch(mealCategoryLoadingFalse());
 };
 
-const fetchRecipeById = (urlParamId) => async (dispatch, getState) => {
-  const { recipes } = getState();
-  if (!Object.keys(recipes).includes(urlParamId)) {
-    dispatch(recipeLoadingTrue);
+const fetchRecipeById = (urlParamId) => async (dispatch) => {
+  try {
     const apidata = await axios.get(singleRecipeURL(urlParamId)).then((res) => res.data);
     if (apidata.meals === null) {
-      dispatch(mealCategoryQueryError(urlParamId));
-    } else {
-      dispatch(createRecipe(normalizeDataRecipe(apidata, urlParamId)));
+      throw new Error(`${urlParamId} is an invalid Recipe URL`);
     }
+    dispatch(createRecipe(normalizeDataRecipe(apidata, urlParamId)));
+  } catch (err) {
+    recipeQueryError(err);
   }
-  dispatch(recipeLoadingFalse);
 };
 
 export {
   CREATE_CATEGORIES,
+  CATEGORIES_LOADING,
+  CATEGORIES_LOADING_FALSE,
+  CATEGORIES_QUERY_ERROR,
   CREATE_MEAL_CATEGORY,
   MEAL_CATEGORY_LOADING,
   MEAL_CATEGORY_LOADING_FALSE,
@@ -151,6 +165,9 @@ export {
   TOGGLE_RECIPE_STEP,
   TOGGLE_RECIPE_INGREDIENT,
   createCategories,
+  categoriesLoading,
+  categoriesLoadingFalse,
+  categoriesQueryError,
   mealCategoryLoading,
   mealCategoryLoadingFalse,
   mealCategoryQueryError,
