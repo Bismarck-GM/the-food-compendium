@@ -61,7 +61,7 @@ const RecipeContainer = (args) => {
           {`${currentRecipe.strArea} Cuisine`}
         </Heading>
         <Grid
-          templateColumns="1fr 1fr"
+          templateColumns="70% 30%"
           gap={12}
           position="relative"
         >
@@ -81,7 +81,7 @@ const RecipeContainer = (args) => {
               Steps
             </Heading>
             <VStack
-              spacing={6}
+              spacing={3}
               align="stretch"
               justify="space-between"
             >
@@ -89,26 +89,28 @@ const RecipeContainer = (args) => {
                 <GridItem
                   key={step.instructionId}
                   position="relative"
-                  border={step.isDone ? '1 px solid rgb(185,234,170)' : 'none'}
+                  // border={step.isDone ? '1 px solid rgb(185,234,170)' : 'none'}
                   borderRadius={step.isDone ? 'xl' : ''}
                   transition="border-radius 0.5s 0s ease"
-                  color={step.isDone ? 'white' : 'white'}
+                  color="white"
                   backgroundColor={step.isDone ? 'rgb(185,234,170, 0.3)' : null}
                   marginBottom="10px"
                   whiteSpace="pre-wrap"
                   fontFamily="'Open Sans', sans-serif;"
-                  onClick={() => toggleRecipeStep(currentRecipe, step, step.isDone)}
+                  onClick={() => toggleRecipeStep(currentRecipeId, step, step.isDone)}
                 >
                   {step.instruction.length > 1 ? (
-                    <>
+                    <Box py={6}>
                       <Text
                         display="inline-block"
+                        paddingLeft={4}
                       >
                         {`Step ${step.instructionId}`}
                         {step.isDone ? (
                           <Icon
                             as={TiTick}
                             position="absolute"
+                            top="-15px"
                             right="-20px"
                             w={12}
                             h={12}
@@ -121,12 +123,13 @@ const RecipeContainer = (args) => {
                         whiteSpace="pre-wrap"
                         fontFamily="'Open Sans', sans-serif;"
                         fontSize={24}
-                        textAlign="center"
+                        // textAlign="center"
                         fontWeight="medium"
+                        paddingLeft={10}
                       >
                         {step.instruction}
                       </Text>
-                    </>
+                    </Box>
                   ) : null }
                 </GridItem>
               ))}
@@ -163,7 +166,7 @@ const RecipeContainer = (args) => {
                   marginBottom="10px"
                   whiteSpace="pre-wrap"
                   fontFamily="'Open Sans', sans-serif;"
-                  onClick={() => toggleRecipeIngredient(currentRecipe, ing, ing.isDone)}
+                  onClick={() => toggleRecipeIngredient(currentRecipeId, ing, ing.isDone)}
                 >
                   {ing.isDone ? (
                     <Icon
@@ -237,7 +240,7 @@ const RecipeContainer = (args) => {
                 color="white"
                 whiteSpace="pre-wrap"
                 fontFamily="'Open Sans', sans-serif;"
-                onClick={() => toggleRecipeStep(currentRecipe, step, step.isDone)}
+                onClick={() => toggleRecipeStep(currentRecipeId, step, step.isDone)}
                 textDecor={step.isDone ? 'line-through' : 'none'}
                 transition="all .4s ease-in-out"
               >
@@ -280,7 +283,7 @@ const RecipeContainer = (args) => {
                 marginBottom="10px"
                 whiteSpace="pre-wrap"
                 fontFamily="'Open Sans', sans-serif;"
-                onClick={() => toggleRecipeIngredient(currentRecipe, ing, ing.isDone)}
+                onClick={() => toggleRecipeIngredient(currentRecipeId, ing, ing.isDone)}
               >
                 {ing.isDone ? (
                   <Icon

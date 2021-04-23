@@ -25,7 +25,7 @@ const recipeReducer = (state = initialState, action) => {
   switch (action.type) {
     case CREATE_RECIPE:
       return {
-        loading: state.loading,
+        loading: false,
         error: null,
         mobileCards: {
           ...state.mobileCards,

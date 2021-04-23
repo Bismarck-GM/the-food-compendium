@@ -5,7 +5,6 @@ import {
   Skeleton,
   Stack,
   Button,
-  // Flex,
 } from '@chakra-ui/react';
 import { connect } from 'react-redux';
 import {
@@ -13,6 +12,8 @@ import {
   showRecipeCard,
   showIngredientCard,
   showToolsCard,
+  recipeLoadingTrue,
+  recipeLoadingFalse,
 } from '../redux/actions';
 import RecipeContainer from '../components/RecipeContainer';
 
@@ -23,6 +24,8 @@ const Recipes = (props) => {
     showRecipeCard,
     showIngredientCard,
     showToolsCard,
+    recipeLoadingTrue,
+    recipeLoadingFalse,
   } = props;
 
   const {
@@ -32,10 +35,17 @@ const Recipes = (props) => {
     mobileCards,
   } = recipes;
 
-  const { match: { params: { id: currentMealId } } } = props;
+  const { match: { params: { id: currentMealIdURL } } } = props;
 
   useEffect(() => {
-    fetchRecipeById(currentMealId);
+    if (!Object.keys(byId).includes(currentMealIdURL)) {
+      fetchRecipeById(currentMealIdURL);
+    } else {
+      recipeLoadingFalse();
+    }
+    return () => {
+      recipeLoadingTrue();
+    };
   }, []);
 
   if (error) {
@@ -58,23 +68,10 @@ const Recipes = (props) => {
         display={{ lg: 'flex' }}
         justifyContent={{ lg: 'center' }}
         position="relative"
-        backgroundColor="rgb(0,0,0,0.4)"
-        _after={{
-          content: '""',
-          background: 'linear-gradient(0deg, rgba(1,1,1,1) 0%, rgba(117,117,117,1) 100%)',
-          bgSize: 'cover',
-          bgRepeat: 'no-repeat',
-          opacity: '0.7',
-          top: '0',
-          left: '0',
-          bottom: '0',
-          right: '0',
-          position: 'absolute',
-          zIndex: '-1',
-        }}
+        background="linear-gradient(0deg, rgba(1,1,1,1) 0%, rgba(84,84,84,1) 100%)"
       >
         {
-          byId[currentMealId] ? <RecipeContainer props={props} /> : ''
+          byId[currentMealIdURL] ? <RecipeContainer props={props} /> : ''
         }
       </Skeleton>
       <Stack
@@ -131,6 +128,8 @@ Recipes.propTypes = {
   showRecipeCard: PropTypes.func.isRequired,
   showIngredientCard: PropTypes.func.isRequired,
   showToolsCard: PropTypes.func.isRequired,
+  recipeLoadingTrue: PropTypes.func.isRequired,
+  recipeLoadingFalse: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -142,6 +141,8 @@ const mapDispatch = {
   showRecipeCard,
   showIngredientCard,
   showToolsCard,
+  recipeLoadingTrue,
+  recipeLoadingFalse,
 };
 
 export default connect(mapStateToProps, mapDispatch)(Recipes);
