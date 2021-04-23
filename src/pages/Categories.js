@@ -24,7 +24,8 @@ const Categories = (props) => {
 
   return (
     <Box
-      bgGradient={{ lg: 'linear(0deg, rgba(213,213,213,1) 0%, rgba(246,246,246,1) 100%);' }}
+      // bgGradient={{ lg: 'linear(0deg, rgba(213,213,213,1) 0%, rgba(246,246,246,1) 100%);' }}
+      background="linear-gradient(0deg, rgba(1,1,1,1) 0%, rgba(117,117,117,1) 100%)"
     >
       <Skeleton
         isLoaded={!loading}
@@ -32,11 +33,16 @@ const Categories = (props) => {
         margin={{ base: '0' }}
         px={{ base: 3, lg: 6 }}
         py={{ base: 3, lg: 6 }}
-        display={{ lg: 'flex' }}
-        justifyContent={{ lg: 'center' }}
+        display={{ base: 'flex' }}
+        justifyContent={{ base: 'center' }}
+        alignItems={{ base: 'center' }}
         position={{ lg: 'relative' }}
+        startColor="rgba(1,1,1,1)"
+        endColor="rgba(205,205,205,1)"
       >
-        <Box w={{ lg: '30%' }}>
+        <Box
+          w={{ base: '100%', md: '60%', lg: '35%' }}
+        >
           {
             byCategory[currentCategoryURL] ? <MealSwiper props={props} /> : ''
           }
@@ -55,7 +61,7 @@ const Categories = (props) => {
             {`Meal Category: ${currentCategoryURL}`}
           </Heading>
         </Box>
-        <Box
+        {/* <Box
           display={{ base: 'none', lg: 'block' }}
           position="absolute"
           top="80px"
@@ -65,10 +71,16 @@ const Categories = (props) => {
           opacity="85%"
           boxShadow="dark-lg"
         >
-          <Heading size="md" fontFamily="'Advent Pro', sans-serif;" color="rgb(242,242,242)" px="20px" _disabled>
+          <Heading
+            size="md"
+            fontFamily="'Advent Pro', sans-serif;"
+            color="rgb(242,242,242)"
+            px="20px"
+            _disabled
+          >
             {`Fav Filter: ${'Active'}`}
           </Heading>
-        </Box>
+        </Box> */}
       </Skeleton>
     </Box>
   );
