@@ -48,7 +48,7 @@ const MealSwiper = ({ props }) => {
         arrayOfMeals.map((meal) => (
           <SwiperSlide key={meal.idMeal}>
             <Box
-              minHeight="65vh"
+              minHeight="55vh"
               position="relative"
               data-background={meal.strMealThumb}
               alt={meal.strMeal}
@@ -57,6 +57,7 @@ const MealSwiper = ({ props }) => {
               backgroundRepeat="no-repeat"
               backgroundSize="cover"
               borderTopRadius="5%"
+              zIndex="12"
               boxShadow={{ lg: 'lg' }}
             >
               <div className="swiper-lazy-preloader swiper-lazy-preloader-white" />
