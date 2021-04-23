@@ -7,13 +7,11 @@ import {
   HStack,
   IconButton,
   useDisclosure,
-  // useColorModeValue,
   Drawer,
   DrawerOverlay,
   DrawerContent,
   DrawerHeader,
   DrawerBody,
-  // Stack,
   Text,
   Heading,
   Link as Anchor,
@@ -38,10 +36,13 @@ const Navbar = () => {
           />
           <HStack spacing={8} alignItems="center">
             <Box>
-              <Heading fontFamily="'Butterfly Kids', cursive" size="2xl">
+              <Heading display={{ base: 'none', md: 'block' }} fontFamily="'Butterfly Kids', cursive" size="2xl">
                 The
                 food
                 compendium
+              </Heading>
+              <Heading display={{ base: 'block', md: 'none' }} letterSpacing="3px" fontFamily="'Cedarville Cursive', cursive" size="2xl">
+                t.f.c.
               </Heading>
             </Box>
             <HStack
