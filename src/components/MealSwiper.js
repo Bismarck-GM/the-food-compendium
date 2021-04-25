@@ -24,9 +24,7 @@ import 'swiper/components/effect-flip/effect-flip.scss';
 
 SwiperCore.use([EffectFlip, Scrollbar, Lazy, Navigation]);
 
-const MealSwiper = ({ props }) => {
-  const { match: { params: { category: currentCategoryURL } } } = props;
-  const { mealByCategory: { byCategory: { [currentCategoryURL]: arrayOfMeals } } } = props;
+const MealSwiper = ({ arrayOfMeals }) => {
   const swiperRef = useRef(null);
   const next = (e) => {
     if (swiperRef) {
@@ -43,12 +41,13 @@ const MealSwiper = ({ props }) => {
       slidesPerView={1}
       lazy
       preloadImages={false}
+      style={{ height: '100%' }}
     >
       {
         arrayOfMeals.map((meal) => (
           <SwiperSlide key={meal.idMeal}>
             <Box
-              minHeight="55vh"
+              minHeight="80%"
               position="relative"
               data-background={meal.strMealThumb}
               alt={meal.strMeal}
@@ -72,7 +71,7 @@ const MealSwiper = ({ props }) => {
               display={{ base: 'flex' }}
               justifyContent="space-between"
               backgroundColor="rgb(231,102,102)"
-              height="15vh"
+              height="20%"
               px={{ base: 6, lg: 12 }}
               py={2}
               borderBottomRadius="20px"
@@ -95,15 +94,8 @@ const MealSwiper = ({ props }) => {
   );
 };
 
-MealSwiper.defaultProps = {
-  mealByCategory: {},
-  match: {},
-};
-
 MealSwiper.propTypes = {
-  props: PropTypes.objectOf(PropTypes.any).isRequired,
-  mealByCategory: PropTypes.objectOf(PropTypes.any),
-  match: PropTypes.objectOf(PropTypes.any),
+  arrayOfMeals: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default MealSwiper;
