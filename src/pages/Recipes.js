@@ -13,9 +13,11 @@ import {
   showIngredientCard,
   showToolsCard,
   recipeLoadingTrue,
+  toggleRecipeStep,
+  toggleRecipeIngredient,
   recipeLoadingFalse,
 } from '../redux/actions';
-import RecipeContainer from '../components/RecipeContainer';
+import RecipeContainer from '../containers/RecipeContainer';
 
 const Recipes = (props) => {
   const {
@@ -26,6 +28,8 @@ const Recipes = (props) => {
     showToolsCard,
     recipeLoadingTrue,
     recipeLoadingFalse,
+    toggleRecipeStep,
+    toggleRecipeIngredient,
   } = props;
 
   const {
@@ -71,7 +75,15 @@ const Recipes = (props) => {
         background="linear-gradient(0deg, rgba(1,1,1,1) 0%, rgba(84,84,84,1) 100%)"
       >
         {
-          byId[currentMealIdURL] ? <RecipeContainer props={props} /> : ''
+          byId[currentMealIdURL] ? (
+            <RecipeContainer
+              mobileCards={mobileCards}
+              currentRecipe={recipes.byId[currentMealIdURL]}
+              toggleRecipeStep={toggleRecipeStep}
+              toggleRecipeIngredient={toggleRecipeIngredient}
+            />
+          )
+            : ''
         }
       </Skeleton>
       <Stack
@@ -130,6 +142,8 @@ Recipes.propTypes = {
   showToolsCard: PropTypes.func.isRequired,
   recipeLoadingTrue: PropTypes.func.isRequired,
   recipeLoadingFalse: PropTypes.func.isRequired,
+  toggleRecipeStep: PropTypes.func.isRequired,
+  toggleRecipeIngredient: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -143,6 +157,8 @@ const mapDispatch = {
   showToolsCard,
   recipeLoadingTrue,
   recipeLoadingFalse,
+  toggleRecipeStep,
+  toggleRecipeIngredient,
 };
 
 export default connect(mapStateToProps, mapDispatch)(Recipes);
