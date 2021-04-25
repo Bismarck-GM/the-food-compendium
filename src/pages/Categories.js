@@ -44,6 +44,7 @@ const Categories = (props) => {
       background="linear-gradient(0deg, rgba(1,1,1,1) 0%, rgba(117,117,117,1) 100%)"
     >
       <Skeleton
+        overflow="hidden"
         isLoaded={!loading}
         height={{ base: 'calc(100vh - 88px)', lg: 'calc(100vh - 144px)' }}
         margin={{ base: '0' }}
@@ -58,9 +59,10 @@ const Categories = (props) => {
       >
         <Box
           w={{ base: '100%', md: '60%', lg: '35%' }}
+          h={{ base: '100%' }}
         >
           {
-            byCategory[currentCategoryURL] ? <MealSwiper props={props} /> : ''
+            byCategory[currentCategoryURL] ? <MealSwiper arrayOfMeals={byCategory[currentCategoryURL]} /> : ''
           }
         </Box>
         <Box
