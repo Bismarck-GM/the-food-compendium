@@ -5,7 +5,7 @@ import {
   Skeleton,
   Heading,
 } from '@chakra-ui/react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   fetchMealByCategory,
   mealCategoryLoading,
@@ -14,23 +14,19 @@ import {
 import MealSwiper from '../components/MealSwiper';
 
 const Categories = (props) => {
-  const {
-    mealByCategory,
-    fetchMealByCategory,
-    mealCategoryLoadingFalse,
-    mealCategoryLoading,
-  } = props;
+  const dispatch = useDispatch();
+  const mealByCategory = useSelector((state) => state.mealByCategory);
   const { loading, error, byCategory } = mealByCategory;
   const { match: { params: { category: currentCategoryURL } } } = props;
 
   useEffect(() => {
     if (!Object.keys(byCategory).includes(currentCategoryURL)) {
-      fetchMealByCategory(currentCategoryURL);
+      dispatch(fetchMealByCategory(currentCategoryURL));
     } else {
-      mealCategoryLoadingFalse();
+      dispatch(mealCategoryLoadingFalse());
     }
     return () => {
-      mealCategoryLoading();
+      dispatch(mealCategoryLoading());
     };
   }, []);
 
@@ -105,21 +101,7 @@ const Categories = (props) => {
 };
 
 Categories.propTypes = {
-  mealByCategory: PropTypes.objectOf(PropTypes.any).isRequired,
   match: PropTypes.objectOf(PropTypes.any).isRequired,
-  fetchMealByCategory: PropTypes.func.isRequired,
-  mealCategoryLoadingFalse: PropTypes.func.isRequired,
-  mealCategoryLoading: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  mealByCategory: state.mealByCategory,
-});
-
-const mapDispatch = {
-  fetchMealByCategory,
-  mealCategoryLoadingFalse,
-  mealCategoryLoading,
-};
-
-export default connect(mapStateToProps, mapDispatch)(Categories);
+export default Categories;

@@ -3,7 +3,7 @@ import {
   CATEGORIES_LOADING,
   CATEGORIES_LOADING_FALSE,
   CATEGORIES_QUERY_ERROR,
-} from '../actions/index';
+} from '../actions/types';
 
 const initialState = {
   loading: true,
