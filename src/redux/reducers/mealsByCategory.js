@@ -3,7 +3,7 @@ import {
   MEAL_CATEGORY_LOADING,
   MEAL_CATEGORY_QUERY_ERROR,
   MEAL_CATEGORY_LOADING_FALSE,
-} from '../actions/index';
+} from '../actions/types';
 
 const initialState = {
   loading: false,

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
   Box,
@@ -15,12 +14,9 @@ import {
   categoriesLoadingFalse,
 } from '../redux/actions';
 
-function Home({
-  fetchCategories,
-  categories,
-  categoriesLoading,
-  categoriesLoadingFalse,
-}) {
+function Home() {
+  const dispatch = useDispatch();
+  const categories = useSelector((state) => state.categories);
   const { allCategories, error, loading } = categories;
   const dayPhrase = 'What would you like to eat today?';
   // const [phrase, setPhrase] = useState(dayPhrase);
@@ -32,12 +28,12 @@ function Home({
 
   useEffect(() => {
     if (allCategories === null) {
-      fetchCategories();
+      dispatch(fetchCategories());
     } else {
-      categoriesLoadingFalse();
+      dispatch(categoriesLoadingFalse());
     }
     return () => {
-      categoriesLoading();
+      dispatch(categoriesLoading());
     };
   }, []);
 
@@ -152,21 +148,4 @@ function Home({
   );
 }
 
-const mapDispatch = {
-  fetchCategories,
-  categoriesLoading,
-  categoriesLoadingFalse,
-};
-
-const mapStateToProps = (state) => ({
-  categories: state.categories,
-});
-
-Home.propTypes = {
-  categories: PropTypes.objectOf(PropTypes.any).isRequired,
-  fetchCategories: PropTypes.func.isRequired,
-  categoriesLoading: PropTypes.func.isRequired,
-  categoriesLoadingFalse: PropTypes.func.isRequired,
-};
-
-export default connect(mapStateToProps, mapDispatch)(Home);
+export default Home;
