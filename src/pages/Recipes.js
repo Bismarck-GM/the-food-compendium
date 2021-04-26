@@ -6,32 +6,20 @@ import {
   Stack,
   Button,
 } from '@chakra-ui/react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   fetchRecipeById,
   showRecipeCard,
   showIngredientCard,
   showToolsCard,
   recipeLoadingTrue,
-  toggleRecipeStep,
-  toggleRecipeIngredient,
   recipeLoadingFalse,
 } from '../redux/actions';
 import RecipeContainer from '../containers/RecipeContainer';
 
 const Recipes = (props) => {
-  const {
-    recipes,
-    fetchRecipeById,
-    showRecipeCard,
-    showIngredientCard,
-    showToolsCard,
-    recipeLoadingTrue,
-    recipeLoadingFalse,
-    toggleRecipeStep,
-    toggleRecipeIngredient,
-  } = props;
-
+  const dispatch = useDispatch();
+  const recipes = useSelector((state) => state.recipes);
   const {
     loading,
     error,
@@ -43,12 +31,12 @@ const Recipes = (props) => {
 
   useEffect(() => {
     if (!Object.keys(byId).includes(currentMealIdURL)) {
-      fetchRecipeById(currentMealIdURL);
+      dispatch(fetchRecipeById(currentMealIdURL));
     } else {
-      recipeLoadingFalse();
+      dispatch(recipeLoadingFalse());
     }
     return () => {
-      recipeLoadingTrue();
+      dispatch(recipeLoadingTrue());
     };
   }, []);
 
@@ -79,8 +67,6 @@ const Recipes = (props) => {
             <RecipeContainer
               mobileCards={mobileCards}
               currentRecipe={recipes.byId[currentMealIdURL]}
-              toggleRecipeStep={toggleRecipeStep}
-              toggleRecipeIngredient={toggleRecipeIngredient}
             />
           )
             : ''
@@ -98,7 +84,7 @@ const Recipes = (props) => {
           flex="1 1 0"
           colorScheme="orange"
           isActive={!!mobileCards.recipe}
-          onClick={showRecipeCard}
+          onClick={() => dispatch(showRecipeCard())}
           _focus={{
             outline: 0,
           }}
@@ -109,7 +95,7 @@ const Recipes = (props) => {
           flex="1 1 0"
           colorScheme="orange"
           isActive={!!mobileCards.ingredients}
-          onClick={showIngredientCard}
+          onClick={() => dispatch(showIngredientCard())}
           _focus={{
             outline: 0,
           }}
@@ -121,7 +107,7 @@ const Recipes = (props) => {
           flex="1 1 0"
           colorScheme="orange"
           isActive={!!mobileCards.tools}
-          onClick={showToolsCard}
+          onClick={() => dispatch(showToolsCard())}
           _focus={{
             outline: 0,
           }}
@@ -134,31 +120,7 @@ const Recipes = (props) => {
 };
 
 Recipes.propTypes = {
-  recipes: PropTypes.objectOf(PropTypes.any).isRequired,
   match: PropTypes.objectOf(PropTypes.any).isRequired,
-  fetchRecipeById: PropTypes.func.isRequired,
-  showRecipeCard: PropTypes.func.isRequired,
-  showIngredientCard: PropTypes.func.isRequired,
-  showToolsCard: PropTypes.func.isRequired,
-  recipeLoadingTrue: PropTypes.func.isRequired,
-  recipeLoadingFalse: PropTypes.func.isRequired,
-  toggleRecipeStep: PropTypes.func.isRequired,
-  toggleRecipeIngredient: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  recipes: state.recipes,
-});
-
-const mapDispatch = {
-  fetchRecipeById,
-  showRecipeCard,
-  showIngredientCard,
-  showToolsCard,
-  recipeLoadingTrue,
-  recipeLoadingFalse,
-  toggleRecipeStep,
-  toggleRecipeIngredient,
-};
-
-export default connect(mapStateToProps, mapDispatch)(Recipes);
+export default Recipes;

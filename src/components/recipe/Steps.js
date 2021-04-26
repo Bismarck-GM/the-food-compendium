@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { TiTick } from 'react-icons/ti';
 import {
   Box,
   Text,
@@ -9,11 +11,12 @@ import {
   Icon,
   GridItem,
 } from '@chakra-ui/react';
-import { TiTick } from 'react-icons/ti';
 import Header from './Header';
 import SubHeader from './SubHeader';
+import { toggleRecipeStep } from '../../redux/actions';
 
-const Steps = ({ currentRecipe, isDesktop, toggleRecipeStep }) => {
+const Steps = ({ currentRecipe, isDesktop }) => {
+  const dispatch = useDispatch();
   if (isDesktop) {
     return (
       <Box
@@ -49,7 +52,7 @@ const Steps = ({ currentRecipe, isDesktop, toggleRecipeStep }) => {
               marginBottom="10px"
               whiteSpace="pre-wrap"
               fontFamily="'Open Sans', sans-serif;"
-              onClick={() => toggleRecipeStep(currentRecipe.idMeal, step, step.isDone)}
+              onClick={() => dispatch(toggleRecipeStep(currentRecipe.idMeal, step, step.isDone))}
             >
               {step.instruction.length > 1 ? (
                 <Box py={6}>
@@ -104,7 +107,7 @@ const Steps = ({ currentRecipe, isDesktop, toggleRecipeStep }) => {
             color="white"
             position="relative"
             key={step.instructionId}
-            onClick={() => toggleRecipeStep(currentRecipe.idMeal, step, step.isDone)}
+            onClick={() => dispatch(toggleRecipeStep(currentRecipe.idMeal, step, step.isDone))}
             px={{ base: 6, md: 6 }}
             _first={{ marginTop: 6 }}
           >
@@ -135,10 +138,13 @@ const Steps = ({ currentRecipe, isDesktop, toggleRecipeStep }) => {
   );
 };
 
+Steps.defaultProps = {
+  isDesktop: true,
+};
+
 Steps.propTypes = {
   currentRecipe: PropTypes.objectOf(PropTypes.any).isRequired,
-  toggleRecipeStep: PropTypes.func.isRequired,
-  isDesktop: PropTypes.bool.isRequired,
+  isDesktop: PropTypes.bool,
 };
 
 export default Steps;

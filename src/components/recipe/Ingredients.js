@@ -8,10 +8,13 @@ import {
   Icon,
   GridItem,
 } from '@chakra-ui/react';
+import { useDispatch } from 'react-redux';
 import { TiTick } from 'react-icons/ti';
+import { toggleRecipeIngredient } from '../../redux/actions';
 import Separator from './Separator';
 
-const Ingredients = ({ currentRecipe, toggleRecipeIngredient }) => {
+const Ingredients = ({ currentRecipe }) => {
+  const dispatch = useDispatch();
   const doneColors = [
     'rgba(141,212,178,0.5)',
     'rgba(156,225,168,0.5)',
@@ -53,7 +56,7 @@ const Ingredients = ({ currentRecipe, toggleRecipeIngredient }) => {
             marginBottom="10px"
             whiteSpace="pre-wrap"
             fontFamily="'Open Sans', sans-serif;"
-            onClick={() => toggleRecipeIngredient(currentRecipe.idMeal, ing, ing.isDone)}
+            onClick={() => dispatch(toggleRecipeIngredient(currentRecipe.idMeal, ing, ing.isDone))}
           >
 
             <Icon
@@ -94,7 +97,6 @@ const Ingredients = ({ currentRecipe, toggleRecipeIngredient }) => {
 
 Ingredients.propTypes = {
   currentRecipe: PropTypes.objectOf(PropTypes.any).isRequired,
-  toggleRecipeIngredient: PropTypes.func.isRequired,
 };
 
 export default Ingredients;

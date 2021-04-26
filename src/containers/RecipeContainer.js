@@ -14,8 +14,6 @@ import SubHeader from '../components/recipe/SubHeader';
 const RecipeContainer = ({
   currentRecipe,
   mobileCards,
-  toggleRecipeStep,
-  toggleRecipeIngredient,
 }) => {
   const isDesktop = useBreakpointValue({ base: false, lg: true });
   if (isDesktop) {
@@ -33,11 +31,9 @@ const RecipeContainer = ({
           <Steps
             currentRecipe={currentRecipe}
             isDesktop={isDesktop}
-            toggleRecipeStep={toggleRecipeStep}
           />
           <Ingredients
             currentRecipe={currentRecipe}
-            toggleRecipeIngredient={toggleRecipeIngredient}
           />
         </Grid>
       </Box>
@@ -53,7 +49,6 @@ const RecipeContainer = ({
           <Steps
             currentRecipe={currentRecipe}
             isDesktop={isDesktop}
-            toggleRecipeStep={toggleRecipeStep}
           />
         </Box>
       </Fade>
@@ -65,7 +60,6 @@ const RecipeContainer = ({
       <Fade in={!!mobileCards.ingredients}>
         <Ingredients
           currentRecipe={currentRecipe}
-          toggleRecipeIngredient={toggleRecipeIngredient}
         />
       </Fade>
     );
@@ -81,8 +75,6 @@ const RecipeContainer = ({
 RecipeContainer.propTypes = {
   currentRecipe: PropTypes.objectOf(PropTypes.any).isRequired,
   mobileCards: PropTypes.objectOf(PropTypes.any).isRequired,
-  toggleRecipeStep: PropTypes.func.isRequired,
-  toggleRecipeIngredient: PropTypes.func.isRequired,
 };
 
 export default RecipeContainer;

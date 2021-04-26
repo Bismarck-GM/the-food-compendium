@@ -8,7 +8,7 @@ import {
   CARD_SHOW_TOOLS,
   TOGGLE_RECIPE_STEP,
   TOGGLE_RECIPE_INGREDIENT,
-} from '../actions/index';
+} from '../actions/types';
 
 const initialState = {
   loading: false,
