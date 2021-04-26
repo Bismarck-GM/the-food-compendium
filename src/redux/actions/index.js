@@ -1,103 +1,81 @@
 import axios from 'axios';
 import { ALLCATEGORIES, mealByCategoryURL, singleRecipeURL } from '../../api/apidata';
 import { normalizeDataByMeal, normalizeDataRecipe } from './normalizers';
-
-const CREATE_CATEGORIES = 'CREATE_CATEGORIES';
-const CATEGORIES_LOADING = 'CATEGORIES_LOADING';
-const CATEGORIES_LOADING_FALSE = 'CATEGORIES_LOADING_FALSE';
-const CATEGORIES_QUERY_ERROR = 'CATEGORIES_QUERY_ERROR';
-
-const CREATE_MEAL_CATEGORY = 'CREATE_MEAL_CATEGORY';
-const MEAL_CATEGORY_LOADING = 'MEAL_CATEGORY_LOADING';
-const MEAL_CATEGORY_QUERY_ERROR = 'MEAL_CATEGORY_QUERY_ERROR';
-const MEAL_CATEGORY_LOADING_FALSE = 'MEAL_CATEGORY_LOADING_FALSE';
-
-const CREATE_RECIPE = 'CREATE_RECIPE';
-const RECIPE_LOADING_TRUE = 'RECIPE_LOADING_TRUE';
-const RECIPE_LOADING_FALSE = 'RECIPE_LOADING_FALSE';
-const RECIPE_QUERY_ERROR = 'RECIPE_QUERY_ERROR';
-const CARD_SHOW_RECIPE = 'CARD_SHOW_RECIPE';
-const CARD_SHOW_INGREDIENTS = 'CARD_SHOW_INGREDIENTS';
-const CARD_SHOW_TOOLS = 'CARD_SHOW_TOOLS';
-const TOGGLE_RECIPE_STEP = 'TOGGLE_RECIPE_STEP';
-const TOGGLE_RECIPE_INGREDIENT = 'TOGGLE_RECIPE_INGREDIENT';
+import * as types from './types';
 
 const createCategories = (newFilter) => ({
-  type: CREATE_CATEGORIES,
+  type: types.CREATE_CATEGORIES,
   payload: newFilter,
 });
 
 const categoriesLoading = () => ({
-  type: CATEGORIES_LOADING,
+  type: types.CATEGORIES_LOADING,
 });
 
 const categoriesLoadingFalse = () => ({
-  type: CATEGORIES_LOADING_FALSE,
+  type: types.CATEGORIES_LOADING_FALSE,
 });
 
 const categoriesQueryError = (err) => ({
-  type: CATEGORIES_QUERY_ERROR,
+  type: types.CATEGORIES_QUERY_ERROR,
   payload: err,
 });
 
 const createMealCategory = (mealCategory) => ({
-  type: CREATE_MEAL_CATEGORY,
+  type: types.CREATE_MEAL_CATEGORY,
   payload: mealCategory,
 });
 
 const mealCategoryLoading = () => ({
-  type: MEAL_CATEGORY_LOADING,
+  type: types.MEAL_CATEGORY_LOADING,
 });
 
 const mealCategoryLoadingFalse = () => ({
-  type: MEAL_CATEGORY_LOADING_FALSE,
+  type: types.MEAL_CATEGORY_LOADING_FALSE,
 });
 
 const mealCategoryQueryError = (err) => ({
-  type: MEAL_CATEGORY_QUERY_ERROR,
+  type: types.MEAL_CATEGORY_QUERY_ERROR,
   payload: err,
 });
 
 const createRecipe = (recipe) => ({
-  type: CREATE_RECIPE,
+  type: types.CREATE_RECIPE,
   payload: recipe,
 });
 
 const recipeLoadingTrue = () => ({
-  type: RECIPE_LOADING_TRUE,
+  type: types.RECIPE_LOADING_TRUE,
 });
 
 const recipeLoadingFalse = () => ({
-  type: RECIPE_LOADING_FALSE,
+  type: types.RECIPE_LOADING_FALSE,
 });
 
 const recipeQueryError = (err) => ({
-  type: RECIPE_QUERY_ERROR,
+  type: types.RECIPE_QUERY_ERROR,
   payload: err,
 });
 
-const showRecipeCard = (changeCard) => ({
-  type: CARD_SHOW_RECIPE,
-  payload: changeCard,
+const showRecipeCard = () => ({
+  type: types.CARD_SHOW_RECIPE,
 });
 
-const showIngredientCard = (changeCard) => ({
-  type: CARD_SHOW_INGREDIENTS,
-  payload: changeCard,
+const showIngredientCard = () => ({
+  type: types.CARD_SHOW_INGREDIENTS,
 });
 
-const showToolsCard = (changeCard) => ({
-  type: CARD_SHOW_TOOLS,
-  payload: changeCard,
+const showToolsCard = () => ({
+  type: types.CARD_SHOW_TOOLS,
 });
 
 const changeRecipeStepState = (recipe) => ({
-  type: TOGGLE_RECIPE_STEP,
+  type: types.TOGGLE_RECIPE_STEP,
   payload: recipe,
 });
 
 const changeRecipeIngredientState = (recipe) => ({
-  type: TOGGLE_RECIPE_INGREDIENT,
+  type: types.TOGGLE_RECIPE_INGREDIENT,
   payload: recipe,
 });
 
@@ -118,7 +96,7 @@ const fetchCategories = () => async (dispatch) => {
     const categories = await axios.get(ALLCATEGORIES).then((res) => res.data);
     dispatch(createCategories(categories.categories));
   } catch (err) {
-    dispatch(categoriesQueryError(err));
+    dispatch(categoriesQueryError(err.message));
   }
 };
 
@@ -130,7 +108,7 @@ const fetchMealByCategory = (urlParamCategory) => async (dispatch) => {
     }
     dispatch(createMealCategory(normalizeDataByMeal(apidata, urlParamCategory)));
   } catch (err) {
-    dispatch(mealCategoryQueryError(err));
+    dispatch(mealCategoryQueryError(err.message));
   }
 };
 
@@ -142,32 +120,16 @@ const fetchRecipeById = (urlParamId) => async (dispatch) => {
     }
     dispatch(createRecipe(normalizeDataRecipe(apidata, urlParamId)));
   } catch (err) {
-    recipeQueryError(err);
+    dispatch(recipeQueryError(err.message));
   }
 };
 
 export {
-  CREATE_CATEGORIES,
-  CATEGORIES_LOADING,
-  CATEGORIES_LOADING_FALSE,
-  CATEGORIES_QUERY_ERROR,
-  CREATE_MEAL_CATEGORY,
-  MEAL_CATEGORY_LOADING,
-  MEAL_CATEGORY_LOADING_FALSE,
-  MEAL_CATEGORY_QUERY_ERROR,
-  CREATE_RECIPE,
-  RECIPE_LOADING_TRUE,
-  RECIPE_LOADING_FALSE,
-  RECIPE_QUERY_ERROR,
-  CARD_SHOW_RECIPE,
-  CARD_SHOW_INGREDIENTS,
-  CARD_SHOW_TOOLS,
-  TOGGLE_RECIPE_STEP,
-  TOGGLE_RECIPE_INGREDIENT,
   createCategories,
   categoriesLoading,
   categoriesLoadingFalse,
   categoriesQueryError,
+  createMealCategory,
   mealCategoryLoading,
   mealCategoryLoadingFalse,
   mealCategoryQueryError,
@@ -181,6 +143,8 @@ export {
   showRecipeCard,
   showIngredientCard,
   showToolsCard,
+  changeRecipeStepState,
+  changeRecipeIngredientState,
   toggleRecipeStep,
   toggleRecipeIngredient,
 };
