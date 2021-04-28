@@ -3,9 +3,9 @@ import { ALLCATEGORIES, mealByCategoryURL, singleRecipeURL } from '../../api/api
 import { normalizeDataByMeal, normalizeDataRecipe } from './normalizers';
 import * as types from './types';
 
-const createCategories = (newFilter) => ({
+const createCategories = (categories) => ({
   type: types.CREATE_CATEGORIES,
-  payload: newFilter,
+  payload: categories,
 });
 
 const categoriesLoading = () => ({
