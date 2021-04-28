@@ -12,7 +12,7 @@ const Footer = () => (
     w="100vw"
     fontFamily="'Advent Pro', sans-serif;"
   >
-    <Image src={`${process.env.PUBLIC_URL}/BismarckGMLogowhite-04.png`} />
+    <Image src={`${process.env.PUBLIC_URL}/BismarckGMLogowhite-04.png`} alt="footer-logo" />
   </Flex>
 );
 
