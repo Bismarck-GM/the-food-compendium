@@ -50,7 +50,7 @@ const Navbar = () => {
               spacing={4}
               display={{ base: 'none', md: 'flex' }}
             >
-              <Link to="/" size="lg">
+              <Link to="/the-food-compendium/" size="lg">
                 <FaHome style={{ display: 'inline', margin: '0 5px' }} />
                 Home
               </Link>
@@ -69,7 +69,7 @@ const Navbar = () => {
                   <CloseIcon onClick={isOpen ? onClose : onOpen} />
                 </DrawerHeader>
                 <DrawerBody display="flex" flexDir="column" justifyContent="center" alignItems="center">
-                  <Link to="/" onClick={isOpen ? onClose : onOpen}>
+                  <Link to="/the-food-compendium/" onClick={isOpen ? onClose : onOpen}>
                     <Text fontSize="40px" textDecor="underline">
                       <FaHome style={{ display: 'inline', margin: '0 5px' }} />
                       Home

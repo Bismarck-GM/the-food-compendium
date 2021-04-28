@@ -95,7 +95,7 @@ function Home() {
               // onBlur={() => setPhrase(dayPhrase)}
             >
               <Link
-                to={`categories/${cat.strCategory}`}
+                to={`/the-food-compendium/categories/${cat.strCategory}`}
               >
                 {loaded ? null : (
                   <Skeleton
