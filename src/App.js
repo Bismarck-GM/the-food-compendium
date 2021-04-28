@@ -21,9 +21,9 @@ const App = () => (
         paddingBottom={{ base: 8, lg: '48px' }}
       >
         <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/categories/:category" exact component={Categories} />
-          <Route path="/recipes/:id" exact component={Recipes} />
+          <Route path="/the-food-compendium/" exact component={Home} />
+          <Route path="/the-food-compendium/categories/:category" exact component={Categories} />
+          <Route path="/the-food-compendium/recipes/:id" exact component={Recipes} />
         </Switch>
       </Box>
       <Footer />
