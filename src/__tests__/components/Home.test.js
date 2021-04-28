@@ -1,43 +1,42 @@
 import React from 'react';
-// We're using our own custom render function and not RTL's render
-// our custom utils also re-export everything from RTL
-// so we can import fireEvent and screen here as well
-import { render, screen } from '../test-utils';
-import Home from '../../pages/Home';
-// eslint-disable-next-line no-unused-vars
-import axiosMock from '../axiosMock';
+import '@testing-library/jest-dom/extend-expect';
+import { fetchCategories, categoriesLoadingFalse } from '../../redux/actions/index';
+import {
+  renderWithRedux,
+  screen,
+  mockCategoriesInitialState,
+  mockCategoriesPopulatedState,
+  mockApiDataForCategories,
+  mockCategoriesWithErrorState,
+} from '../test-utils';
+import App from '../../App';
 
-// const thunk = ({ dispatch, getState }) => next => action => {
-//   if (typeof action === 'function') {
-//     return action(dispatch, getState);
-//   }
+jest.mock('../../redux/actions/index', () => ({
+  fetchCategories: jest.fn(() => () => Promise.resolve(mockApiDataForCategories)),
+  categoriesLoading: jest.fn(),
+  categoriesLoadingFalse: jest.fn(),
+  categoriesQueryError: jest.fn(),
+}));
 
-//   return next(action);
-// };
-
-// const create = () => {
-//   const store = {
-//     getState: jest.fn(() => ({})),
-//     dispatch: jest.fn(),
-//   };
-//   const next = jest.fn();
-
-//   const invoke = action => thunk(store)(next)(action);
-
-//   return { store, next, invoke };
-// };
-
-// it('Renders the connected app with initialState', () => {
-//   render(<Home />, {
-//     initialState: {
-//       categories: {
-//         loading: true,
-//         error: null,
-//         allCategories: null,
-//       },
-//       fetchCategories: jest.fn(),
-//     },
-//   });
-
-//   expect(screen.getByText(/What would you like to eat today/i)).toBeInTheDocument();
-// });
+describe('Home Page Component', () => {
+  test('Calls fetchcategories when Store.Categories is null/empty.', () => {
+    renderWithRedux(<App />, { route: '/', initialState: mockCategoriesInitialState });
+    expect(fetchCategories).toHaveBeenCalled();
+    const title = screen.getByText(/What would you like to eat today?/i);
+    expect(title).toBeInTheDocument();
+  });
+  test('Calls categoriesLoadingFalse when Store.Categories has or finished fetching items.', () => {
+    renderWithRedux(<App />, { route: '/', initialState: mockCategoriesPopulatedState });
+    expect(fetchCategories).not.toHaveBeenCalled();
+    expect(categoriesLoadingFalse).toHaveBeenCalled();
+    const title = screen.getByText(/Beef/i);
+    expect(title).toBeInTheDocument();
+    expect(screen.getByText(/Beef/i).closest('a')).toHaveAttribute('href', '/categories/Beef');
+  });
+  test('Display Error when Store.Categories.error contains message.', () => {
+    renderWithRedux(<App />, { route: '/', initialState: mockCategoriesWithErrorState });
+    expect(fetchCategories).not.toHaveBeenCalled();
+    const title = screen.getByText(/Some Axios error. Or bad URL./i);
+    expect(title).toBeInTheDocument();
+  });
+});
