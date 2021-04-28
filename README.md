@@ -10,6 +10,10 @@ Desktop             |  Mobile
 
 
 
+## Video Explanation:
+
+#### [Video explaining the project - Youtube](https://youtu.be/FMTrePHolbs)
+
 ## Live Demo:
 
 #### [The Food Compendium - REACT - deployed in GitHubPages - Click Here](https://bismarck-gm.github.io/the-food-compendium/)
