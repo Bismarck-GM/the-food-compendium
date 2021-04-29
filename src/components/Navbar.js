@@ -17,7 +17,7 @@ import {
   Link as Anchor,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
-import { FaGithub, FaHome } from 'react-icons/fa';
+import { FaGithub, FaHome, FaFilter } from 'react-icons/fa';
 
 const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -54,6 +54,10 @@ const Navbar = () => {
                 <FaHome style={{ display: 'inline', margin: '0 5px' }} />
                 Home
               </Link>
+              <Link to="/the-food-compendium/ingredients/" size="lg">
+                <FaFilter style={{ display: 'inline', margin: '0 5px' }} />
+                Ingredients
+              </Link>
               <Anchor href="https://github.com/Bismarck-GM/" isExternal>
                 <FaGithub style={{ display: 'inline', margin: '0 5px' }} />
                 My Github
@@ -68,11 +72,17 @@ const Navbar = () => {
                 <DrawerHeader>
                   <CloseIcon onClick={isOpen ? onClose : onOpen} />
                 </DrawerHeader>
-                <DrawerBody display="flex" flexDir="column" justifyContent="center" alignItems="center">
+                <DrawerBody display="flex" flexDir="column" justifyContent="space-around" alignItems="center">
                   <Link to="/the-food-compendium/" onClick={isOpen ? onClose : onOpen}>
                     <Text fontSize="40px" textDecor="underline">
                       <FaHome style={{ display: 'inline', margin: '0 5px' }} />
                       Home
+                    </Text>
+                  </Link>
+                  <Link to="/the-food-compendium/ingredients/" onClick={isOpen ? onClose : onOpen}>
+                    <Text fontSize="40px" textDecor="underline">
+                      <FaFilter style={{ display: 'inline', margin: '0 5px' }} />
+                      Ingredients
                     </Text>
                   </Link>
                   <Anchor href="https://github.com/Bismarck-GM/" isExternal>
