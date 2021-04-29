@@ -6,10 +6,10 @@ import {
   Grid,
   useBreakpointValue,
 } from '@chakra-ui/react';
-import Ingredients from '../components/recipe/Ingredients';
-import Steps from '../components/recipe/Steps';
-import Header from '../components/recipe/Header';
-import SubHeader from '../components/recipe/SubHeader';
+import Ingredients from './recipe/Ingredients';
+import Steps from './recipe/Steps';
+import Header from './recipe/Header';
+import SubHeader from './recipe/SubHeader';
 
 const RecipeContainer = ({
   currentRecipe,

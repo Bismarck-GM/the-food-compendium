@@ -15,7 +15,7 @@ import {
   recipeLoadingTrue,
   recipeLoadingFalse,
 } from '../redux/actions';
-import RecipeContainer from '../containers/RecipeContainer';
+import RecipeContainer from '../components/RecipeContainer';
 
 const Recipes = (props) => {
   const dispatch = useDispatch();
