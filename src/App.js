@@ -4,6 +4,7 @@ import { Box } from '@chakra-ui/react';
 import Home from './pages/Home';
 import Categories from './pages/Categories';
 import Recipes from './pages/Recipes';
+import Ingredients from './pages/Ingredients';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/the-food-compendium/" exact component={Home} />
           <Route path="/the-food-compendium/categories/:category" exact component={Categories} />
           <Route path="/the-food-compendium/recipes/:id" exact component={Recipes} />
+          <Route path="/the-food-compendium/ingredients/" exact component={Ingredients} />
         </Switch>
       </Box>
       <Footer />
