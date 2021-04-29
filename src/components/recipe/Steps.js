@@ -43,6 +43,7 @@ const Steps = ({ currentRecipe, isDesktop }) => {
             <GridItem
               key={step.instructionId}
               position="relative"
+              cursor="pointer"
               borderRadius={step.isDone ? 'xl' : ''}
               transition="border-radius 0.5s 0s ease"
               px="5%"
@@ -102,9 +103,10 @@ const Steps = ({ currentRecipe, isDesktop }) => {
       >
         {currentRecipe.steppedInstructions.map((step) => (
           <Box
+            key={step.instructionId}
             color="white"
             position="relative"
-            key={step.instructionId}
+            cursor="pointer"
             onClick={() => dispatch(toggleRecipeStep(currentRecipe.idMeal, step, step.isDone))}
             px={{ base: 6, md: 6 }}
             _first={{ marginTop: 6 }}

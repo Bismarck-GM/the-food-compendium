@@ -56,6 +56,7 @@ const Ingredients = ({ currentRecipe }) => {
             marginBottom="10px"
             whiteSpace="pre-wrap"
             fontFamily="'Open Sans', sans-serif;"
+            cursor="pointer"
             onClick={() => dispatch(toggleRecipeIngredient(currentRecipe.idMeal, ing, ing.isDone))}
           >
 
