@@ -15,7 +15,7 @@ import {
   recipeLoadingTrue,
   recipeLoadingFalse,
 } from '../redux/actions';
-import RecipeContainer from '../components/RecipeContainer';
+import RecipesContainer from '../components/RecipesContainer';
 
 const Recipes = (props) => {
   const dispatch = useDispatch();
@@ -63,8 +63,8 @@ const Recipes = (props) => {
         background="linear-gradient(0deg, rgba(1,1,1,1) 0%, rgba(84,84,84,1) 100%)"
       >
         {
-          byId[currentMealIdURL] ? (
-            <RecipeContainer
+          !loading ? (
+            <RecipesContainer
               mobileCards={mobileCards}
               currentRecipe={recipes.byId[currentMealIdURL]}
             />

@@ -57,7 +57,7 @@ const Categories = (props) => {
           h={{ base: '100%' }}
         >
           {
-            byCategory[currentCategoryURL] ? <MealSwiper arrayOfMeals={byCategory[currentCategoryURL]} /> : ''
+            !loading ? <MealSwiper arrayOfMeals={byCategory[currentCategoryURL]} /> : ''
           }
         </Box>
         <Box
