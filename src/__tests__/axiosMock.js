@@ -1,6 +1,6 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { ALLCATEGORIES, singleRecipeURL, mealByCategoryURL } from '../api/apidata';
+import { ALLCATEGORIESURL, singleRecipeURL, mealByCategoryURL } from '../api/apidata';
 
 const recipeIdURL = singleRecipeURL(52772);
 
@@ -8,7 +8,7 @@ const categoryMeals = mealByCategoryURL('Beef');
 
 const axiosMock = new MockAdapter(axios);
 
-axiosMock.onGet(ALLCATEGORIES).replyOnce(200, {
+axiosMock.onGet(ALLCATEGORIESURL).replyOnce(200, {
   categories: [
     {
       idCategory: 1,
