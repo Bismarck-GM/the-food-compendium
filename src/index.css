@@ -1,13 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Cedarville+Cursive&family=Advent+Pro:wght@100;200;300;400;500;600;700&family=Butterfly+Kids&display=swap');
 
-.my-masonry-grid {
+.my-masonry-grid,
+.masonry-ingredients {
   display: flex;
   padding-bottom: 20px;
   margin-left: -15px; /* gutter size offset */
   width: auto;
 }
 
-.my-masonry-grid_column {
+.my-masonry-grid_column,
+.masonry-ingredients_column {
   padding-left: 15px; /* gutter size */
   background-clip: padding-box;
 }
