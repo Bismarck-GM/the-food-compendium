@@ -21,21 +21,21 @@ jest.mock('../../redux/actions/index', () => ({
 
 describe('Categories Page Component', () => {
   test('Calls fetchMealByCategory with Params when Store.mealByCategory is null/empty.', async () => {
-    await renderWithRedux(<App />, { route: '/categories/Beef', initialState: mockMealByCategoryPopulatedState });
+    await renderWithRedux(<App />, { route: '/the-food-compendium/categories/Beef', initialState: mockMealByCategoryPopulatedState });
     expect(fetchMealByCategory).not.toHaveBeenCalled();
     const title = screen.getAllByText(/Beef/i);
     expect(title[0]).toBeInTheDocument();
   });
   test('Calls mealCategoryLoadingFalse when Store.mealByCategory has or finished fetching items.', () => {
-    renderWithRedux(<App />, { route: '/categories/Beef', initialState: mockMealByCategoryPopulatedState });
+    renderWithRedux(<App />, { route: '/the-food-compendium/categories/Beef', initialState: mockMealByCategoryPopulatedState });
     expect(fetchMealByCategory).not.toHaveBeenCalled();
     expect(mealCategoryLoadingFalse).toHaveBeenCalled();
     const title = screen.getAllByText(/Beef/i);
     expect(title[0]).toBeInTheDocument();
-    expect(screen.getAllByTestId(/link-to-recipe/i)[0]).toHaveAttribute('href', '/recipes/52874');
+    expect(screen.getAllByTestId(/link-to-recipe/i)[0]).toHaveAttribute('href', '/the-food-compendium/recipes/52874');
   });
   test('Display Error when Store.mealByCategory.error contains message.', () => {
-    renderWithRedux(<App />, { route: '/categories/Beef', initialState: mockMealByCategoryWithErrorState });
+    renderWithRedux(<App />, { route: '/the-food-compendium/categories/Beef', initialState: mockMealByCategoryWithErrorState });
     expect(fetchMealByCategory).not.toHaveBeenCalled();
     const title = screen.getByText(/Some Axios error. Or bad URL./i);
     expect(title).toBeInTheDocument();

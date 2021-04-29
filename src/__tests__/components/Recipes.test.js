@@ -52,7 +52,7 @@ describe('Recipes Page Component', () => {
   //   expect(screen.getByText(/Beef and Mustard Pie/i).closest('a')).toHaveAttribute('href', '/recipes/52874');
   // });
   test('Display Error when Store.mealByCategory.error contains message.', () => {
-    renderWithRedux(<App />, { route: '/recipes/52772', initialState: mockRecipeWithErrorState });
+    renderWithRedux(<App />, { route: '/the-food-compendium/recipes/52772', initialState: mockRecipeWithErrorState });
     expect(fetchRecipeById).not.toHaveBeenCalled();
     const title = screen.getByText(/Some Axios error. Or bad URL./i);
     expect(title).toBeInTheDocument();

@@ -22,7 +22,7 @@ jest.mock('../../redux/actions/index', () => ({
 
 describe('Root App Component', () => {
   test('Renders Navbar', () => {
-    renderWithRedux(<App route="/" />, { initialState: mockCategoriesInitialState });
+    renderWithRedux(<App />, { route: '/the-food-compendium/', initialState: mockCategoriesInitialState });
     const logo = screen.getByText(/The food compendium/i);
     expect(logo).toBeInTheDocument();
   });
@@ -33,19 +33,19 @@ describe('Root App Component', () => {
   });
 
   test('Renders Home Page Component when root route', () => {
-    renderWithRedux(<App />, { initialState: mockCategoriesInitialState });
+    renderWithRedux(<App />, { route: '/the-food-compendium/', initialState: mockCategoriesInitialState });
     expect(fetchCategories).toHaveBeenCalled();
     expect(fetchMealByCategory).not.toHaveBeenCalled();
     expect(fetchRecipeById).not.toHaveBeenCalled();
   });
   test('Renders Categories Page Component when root route', () => {
-    renderWithRedux(<App />, { route: '/categories/Beef' });
+    renderWithRedux(<App />, { route: '/the-food-compendium/categories/Beef' });
     expect(fetchMealByCategory).toHaveBeenCalled();
     expect(fetchCategories).not.toHaveBeenCalled();
     expect(fetchRecipeById).not.toHaveBeenCalled();
   });
   test('Renders Recipes Page Component when root route', () => {
-    renderWithRedux(<App />, { route: '/recipes/666' });
+    renderWithRedux(<App />, { route: '/the-food-compendium/recipes/666' });
     expect(fetchRecipeById).toHaveBeenCalled();
     expect(fetchMealByCategory).not.toHaveBeenCalled();
     expect(fetchCategories).not.toHaveBeenCalled();
