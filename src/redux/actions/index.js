@@ -1,6 +1,11 @@
 import axios from 'axios';
-import { ALLCATEGORIES, mealByCategoryURL, singleRecipeURL } from '../../api/apidata';
-import { normalizeDataByMeal, normalizeDataRecipe } from './normalizers';
+import {
+  ALLCATEGORIESURL,
+  mealByCategoryURL,
+  singleRecipeURL,
+  ALLINGREDIENTSURL,
+} from '../../api/apidata';
+import { normalizeDataByMeal, normalizeDataRecipe, normalizeDataIngredients } from './normalizers';
 import * as types from './types';
 
 const createCategories = (categories) => ({
@@ -79,6 +84,29 @@ const changeRecipeIngredientState = (recipe) => ({
   payload: recipe,
 });
 
+const createIngredientsList = (ingredients) => ({
+  type: types.CREATE_INGREDIENTS,
+  payload: ingredients,
+});
+
+const ingredientsLoadingTrue = () => ({
+  type: types.INGREDIENTS_LOADING_TRUE,
+});
+
+const ingredientsLoadingFalse = () => ({
+  type: types.INGREDIENTS_LOADING_FALSE,
+});
+
+const ingredientsQueryError = (err) => ({
+  type: types.INGREDIENTS_QUERY_ERROR,
+  payload: err,
+});
+
+const ingredientsChangeFilter = (newfilter) => ({
+  type: types.INGREDIENTS_CHANGE_FILTER,
+  payload: newfilter,
+});
+
 const toggleRecipeStep = (recipeId, step, current) => (dispatch, getState) => {
   const { recipes: { byId: { [recipeId]: meal } } } = getState();
   meal.steppedInstructions[step.instructionId - 1].isDone = !current;
@@ -93,7 +121,7 @@ const toggleRecipeIngredient = (recipeId, ing, current) => (dispatch, getState) 
 
 const fetchCategories = () => async (dispatch) => {
   try {
-    const categories = await axios.get(ALLCATEGORIES).then((res) => res.data);
+    const categories = await axios.get(ALLCATEGORIESURL).then((res) => res.data);
     dispatch(createCategories(categories.categories));
   } catch (err) {
     dispatch(categoriesQueryError(err.message));
@@ -124,6 +152,15 @@ const fetchRecipeById = (urlParamId) => async (dispatch) => {
   }
 };
 
+const fetchIngredients = () => async (dispatch) => {
+  try {
+    const ingredientsList = await axios.get(ALLINGREDIENTSURL).then((res) => res.data);
+    dispatch(createIngredientsList(normalizeDataIngredients(ingredientsList.meals)));
+  } catch (err) {
+    dispatch(ingredientsQueryError(err.message));
+  }
+};
+
 export {
   createCategories,
   categoriesLoading,
@@ -137,9 +174,15 @@ export {
   recipeLoadingTrue,
   recipeLoadingFalse,
   recipeQueryError,
+  createIngredientsList,
+  ingredientsLoadingTrue,
+  ingredientsLoadingFalse,
+  ingredientsQueryError,
+  ingredientsChangeFilter,
   fetchCategories,
   fetchMealByCategory,
   fetchRecipeById,
+  fetchIngredients,
   showRecipeCard,
   showIngredientCard,
   showToolsCard,

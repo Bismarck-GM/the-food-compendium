@@ -55,3 +55,20 @@ export const normalizeDataRecipe = (apidata, recipeId) => {
   response[recipeId].strYoutube = meals[0].strYoutube;
   return response;
 };
+
+export const normalizeDataIngredients = (apidata) => {
+  const newArray = [];
+  apidata.map((ingredient) => {
+    if (ingredient.strType === null) {
+      const ing = {
+        ...ingredient,
+        strType: 'Miscelaneous',
+      };
+      newArray.push(ing);
+    } else {
+      newArray.push(ingredient);
+    }
+    return null;
+  });
+  return newArray;
+};
