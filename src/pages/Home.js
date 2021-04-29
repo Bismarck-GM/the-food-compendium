@@ -19,7 +19,6 @@ function Home() {
   const categories = useSelector((state) => state.categories);
   const { allCategories, error, loading } = categories;
   const dayPhrase = 'What would you like to eat today?';
-  // const [phrase, setPhrase] = useState(dayPhrase);
   const [loaded, setLoaded] = useState(false);
   const masonryBreakPoints = {
     768: 1,
@@ -89,10 +88,6 @@ function Home() {
               borderY={{ base: '2px solid black', lg: 'none' }}
               marginBottom={{ base: 0, lg: 6 }}
               role="group"
-              // onMouseOver={() => setPhrase(`Yay! ${cat.strCategory}!`)}
-              // onMouseOut={() => setPhrase(dayPhrase)}
-              // onFocus={() => setPhrase(`${cat.strCategory}?`)}
-              // onBlur={() => setPhrase(dayPhrase)}
             >
               <Link
                 to={`/the-food-compendium/categories/${cat.strCategory}`}

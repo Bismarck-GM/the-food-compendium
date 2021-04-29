@@ -36,7 +36,6 @@ const Categories = (props) => {
 
   return (
     <Box
-      // bgGradient={{ lg: 'linear(0deg, rgba(213,213,213,1) 0%, rgba(246,246,246,1) 100%);' }}
       background="linear-gradient(0deg, rgba(1,1,1,1) 0%, rgba(117,117,117,1) 100%)"
     >
       <Skeleton
@@ -75,26 +74,6 @@ const Categories = (props) => {
             {`Meal Category: ${currentCategoryURL}`}
           </Heading>
         </Box>
-        {/* <Box
-          display={{ base: 'none', lg: 'block' }}
-          position="absolute"
-          top="80px"
-          left="0"
-          bgGradient="linear(to-r, yellow.600, red.500)"
-          borderRightRadius="50px"
-          opacity="85%"
-          boxShadow="dark-lg"
-        >
-          <Heading
-            size="md"
-            fontFamily="'Advent Pro', sans-serif;"
-            color="rgb(242,242,242)"
-            px="20px"
-            _disabled
-          >
-            {`Fav Filter: ${'Active'}`}
-          </Heading>
-        </Box> */}
       </Skeleton>
     </Box>
   );

@@ -43,7 +43,6 @@ const Steps = ({ currentRecipe, isDesktop }) => {
             <GridItem
               key={step.instructionId}
               position="relative"
-              // border={step.isDone ? '1 px solid rgb(185,234,170)' : 'none'}
               borderRadius={step.isDone ? 'xl' : ''}
               transition="border-radius 0.5s 0s ease"
               px="5%"
@@ -78,7 +77,6 @@ const Steps = ({ currentRecipe, isDesktop }) => {
                     whiteSpace="pre-wrap"
                     fontFamily="'Open Sans', sans-serif;"
                     fontSize={24}
-                    // textAlign="center"
                     fontWeight="medium"
                     paddingLeft={10}
                   >

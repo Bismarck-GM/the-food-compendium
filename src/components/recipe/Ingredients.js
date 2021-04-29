@@ -48,7 +48,7 @@ const Ingredients = ({ currentRecipe }) => {
         {currentRecipe.ingredients.map((ing) => (
           <GridItem
             key={ing.id}
-            border={ing.isDone ? '1 px solid rgb(185,234,170)' : '1px solid white'}
+            border={ing.isDone ? '1px solid transparent' : '1px solid white'}
             borderRadius={ing.isDone ? 'xl' : ''}
             transition="border-radius 0.5s 0s ease"
             position="relative"
@@ -60,7 +60,6 @@ const Ingredients = ({ currentRecipe }) => {
           >
 
             <Icon
-              // display={ing.isDone ? 'inline-block' : 'hidden'}
               visibility={ing.isDone ? 'visible' : 'hidden'}
               as={TiTick}
               position="absolute"
@@ -69,11 +68,9 @@ const Ingredients = ({ currentRecipe }) => {
               w={8}
               h={8}
               zIndex="10"
-              // _odd={{ transition: 'fill 3s 3s ease' }}
               transition="fill 3s 3s ease"
               fill="white"
               fontWeight="bold"
-              // transition="8s"
             />
 
             <Box

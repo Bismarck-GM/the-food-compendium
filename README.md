@@ -70,7 +70,13 @@ $ npm start
 A new browser tab/window will open up after the server is initiated.
 
 Redux Toolkit options are running. You can check the Actions by using Redux DevTools in Chrome/Firefox.
+### Testing
 
+To run the test simply run:
+
+```
+$ npm run test
+```
 ## Author
 
 👤 **Gerónimo Morisot**
